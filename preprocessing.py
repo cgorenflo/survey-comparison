@@ -1,3 +1,5 @@
+import re
+
 import pandas as pd
 
 
@@ -9,6 +11,14 @@ def map_email_addresses():
     set_row_labels(survey1, survey2)
 
     replace_string_values_with_integers(survey1)
+    convert_distance_strings_to_doubles(survey2, "odometer")
+    convert_distance_strings_to_doubles(survey2, "trip_length_work")
+    convert_distance_strings_to_doubles(survey2,"trip_length_school")
+    convert_distance_strings_to_doubles(survey2,"trip_length_shopping")
+    convert_distance_strings_to_doubles(survey2,"trip_length_private")
+    convert_distance_strings_to_doubles(survey2,"trip_length_shuttle")
+    convert_distance_strings_to_doubles(survey2,"trip_length_leisure")
+
 
     filtered_survey1 = survey1[survey1["email"].isin(survey2["email"])].sort_values("email", ascending=True)
     filtered_survey2 = survey2[survey2["email"].isin(survey1["email"])].sort_values("email", ascending=True)
@@ -31,7 +41,12 @@ def replace_string_values_with_integers(survey1):
     survey1.replace(
         ["Strongly Disagree", "Disagree", "Neutral", "Agree", "Strongly Agree"],
         list(range(1, 6)), inplace=True)
-    survey1.replace("Strongly disagree",1, inplace=True)
+    survey1.replace("Strongly disagree", 1, inplace=True)
+
+
+def convert_distance_strings_to_doubles(survey, column):
+    survey[column] = [re.search(r"\d+", str(i)).group() if re.search(r"\d+", str(i)) else float('nan')
+                      for i in survey[column]]
 
 
 def set_row_labels(survey1, survey2):
@@ -105,7 +120,20 @@ def set_column_names(survey1, survey2):
                     "110": "health_walk"}
 
     survey1.rename(columns={"172": "email", **same_columns}, inplace=True)
-    survey2.rename(columns={"4": "email", **same_columns}, inplace=True)
+    survey2.rename(columns={"4": "email",
+                            "9": "odometer",
+                            "38": "frequency_ebikes",
+                            "39": "frequency_bikes",
+                            "40": "frequency_cars",
+                            "41": "frequency_transit",
+                            "42": "frequency_walk",
+                            "44": "trip_length_work",
+                            "45": "trip_length_school",
+                            "46": "trip_length_shopping",
+                            "47": "trip_length_private",
+                            "48": "trip_length_shuttle",
+                            "49": "trip_length_leisure",
+                            **same_columns}, inplace=True)
 
 
 map_email_addresses()
