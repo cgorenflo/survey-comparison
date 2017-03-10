@@ -4,20 +4,27 @@ import pandas as pd
 def map_email_addresses():
     survey1 = pd.read_excel("survey 1.xlsx")
     survey2 = pd.read_excel("survey 2 numerical.xls", header=[0, 1])
+    survey3 = pd.read_excel("survey 3 numerical.xls", header=[0, 1])
 
-    set_column_names(survey1, survey2)
-    set_row_labels(survey1, survey2)
+    set_column_names(survey1, survey2, survey3)
+    set_row_labels(survey1)
+    set_row_labels(survey2)
+    set_row_labels(survey3)
 
     replace_string_values_with_integers(survey1)
 
-    filtered_survey1 = survey1[survey1["email"].isin(survey2["email"])].sort_values("email", ascending=True)
-    filtered_survey2 = survey2[survey2["email"].isin(survey1["email"])].sort_values("email", ascending=True)
+    filtered_survey1 = survey1[survey1["email"].isin(survey3["email"])].sort_values("email", ascending=True)
+    filtered_survey2 = survey2[survey2["email"].isin(survey3["email"])].sort_values("email", ascending=True)
+    filtered_survey3 = survey3[survey3["email"].isin(survey2["email"])].sort_values("email", ascending=True)
 
     with pd.ExcelWriter("survey1_participants.xlsx") as writer:
         filtered_survey1.to_excel(writer)
 
     with pd.ExcelWriter("survey2_participants.xlsx") as writer:
         filtered_survey2.to_excel(writer)
+
+    with pd.ExcelWriter("survey3_participants.xlsx") as writer:
+        filtered_survey3.to_excel(writer)
 
 
 def replace_string_values_with_integers(survey1):
@@ -34,14 +41,14 @@ def replace_string_values_with_integers(survey1):
     survey1.replace("Strongly disagree",1, inplace=True)
 
 
-def set_row_labels(survey1, survey2):
-    survey1.set_index("email", drop=False, inplace=True)
-    survey2.set_index("email", drop=False, inplace=True)
+def set_row_labels(survey):
+    survey.set_index("email", drop=False, inplace=True)
 
 
-def set_column_names(survey1, survey2):
+def set_column_names(survey1, survey2, survey3):
     survey1.columns = map(str, range(182))
     survey2.columns = map(str, range(166))
+    survey3.columns = map(str, range(166))
 
     same_columns = {"51": "independence_importance",
                     "52": "stress_importance",
@@ -106,6 +113,7 @@ def set_column_names(survey1, survey2):
 
     survey1.rename(columns={"172": "email", **same_columns}, inplace=True)
     survey2.rename(columns={"4": "email", **same_columns}, inplace=True)
+    survey3.rename(columns={"4": "email", **same_columns}, inplace=True)
 
 
 map_email_addresses()
