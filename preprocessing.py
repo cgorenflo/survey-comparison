@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 
 
 def map_email_addresses():
@@ -6,16 +7,18 @@ def map_email_addresses():
     survey2 = pd.read_excel("survey 2 numerical.xls", header=[0, 1])
     survey3 = pd.read_excel("survey 3 numerical.xls", header=[0, 1])
 
+
     set_column_names(survey1, survey2, survey3)
     set_row_labels(survey1)
     set_row_labels(survey2)
     set_row_labels(survey3)
+    survey3 = survey3[survey3["email"].notnull()]
 
     replace_string_values_with_integers(survey1)
 
-    filtered_survey1 = survey1[survey1["email"].isin(survey3["email"])].sort_values("email", ascending=True)
-    filtered_survey2 = survey2[survey2["email"].isin(survey3["email"])].sort_values("email", ascending=True)
-    filtered_survey3 = survey3[survey3["email"].isin(survey2["email"])].sort_values("email", ascending=True)
+    filtered_survey1 = survey1[survey1["email"].isin(survey2["email"])].sort_values("email", ascending=True)
+    filtered_survey2 = survey2[survey2["email"].isin(survey1["email"])].sort_values("email", ascending=True)
+    filtered_survey3 = survey3[survey3["email"].isin(survey1["email"])].sort_values("email", ascending=True)
 
     with pd.ExcelWriter("survey1_participants.xlsx") as writer:
         filtered_survey1.to_excel(writer)
