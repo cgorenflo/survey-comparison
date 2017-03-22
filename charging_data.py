@@ -51,3 +51,5 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(
     mstuds = get_charging(male_students)
     with open("mstuds",mode='w') as file:
         file.writelines("{line}\n".format(line=line) for line in mstuds)
+
+
