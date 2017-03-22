@@ -18,58 +18,58 @@ def plot(figure, subplotargs, column):
 
     sub = figure.add_subplot(subplotargs, title=column, xticks=[p + 1.5 * width for p in pos], xticklabels=result.index,
                              xlim=[min(pos) - width, max(pos) + width * 4],
-                             ylim=[0, 0.4 + max(max(result[column + str(1)]), max(result[column + str(2)]),
-                                                max(result[column + str(2)]))])
+                             ylim=[0, 0.4 + max(max(result[column]), max(result[column + '_x']),
+                                                max(result[column + '_y']))])
 
     # Create a bar with pre_score data,
     # in position pos,
     sub.bar(pos,
             # using df['pre_score'] data,
-            result[column + str(1)],
+            result[column],
             # of width
             width,
             # with alpha 0.5
             alpha=0.6,
             # with color
             color='black')
-    sub.plot(pos, [numpy.mean(result[column + str(1)])] * len(pos), 'k--')
+    sub.plot(pos, [numpy.mean(result[column])] * len(pos), 'k--')
 
     # Create a bar with mid_score data,
     # in position pos + some width buffer,
     plt.bar([p + width for p in pos],
             # using df['mid_score'] data,
-            result[column + str(2)],
+            result[column + '_x'],
             # of width
             width,
             # with alpha 0.5
-            alpha=0.5,
+            alpha=0.6,
             # with color
             color='red')
-    sub.plot(pos, [numpy.mean(result[column + str(2)])] * len(pos), 'r--')
+    sub.plot(pos, [numpy.mean(result[column + '_x'])] * len(pos), 'r--')
 
     # Create a bar with post_score data,
     # in position pos + some width buffer,
     plt.bar([p + width * 2 for p in pos],
             # using df['post_score'] data,
-            result[column + str(3)],
+            result[column + '_y'],
             # of width
             width,
             # with alpha 0.5
-            alpha=0.5,
+            alpha=0.6,
             # with color
             color='blue')
-    sub.plot(pos, [numpy.mean(result[column + str(3)])] * len(pos), 'b--')
+    sub.plot(pos, [numpy.mean(result[column + '_y'])] * len(pos), 'b--')
 
 
-fig1a = plt.figure()
-radar = radar_chart.ComplexRadar(fig1a, ["independence_importance",
+figrad = plt.figure()
+radar = radar_chart.ComplexRadar(figrad, ["independence_importance",
                          "stress_importance",
                          "cost_importance",
                          "status_importance",
                          "fun_importance",
                          "environment_importance"],[(0,7)]*6)
 
-participant_index = 8
+participant_index = 1
 radar.plot(tuple(result[["independence_importance",
                          "stress_importance",
                          "cost_importance",
@@ -108,21 +108,24 @@ radar.fill(tuple(result[["independence_importance_y",
                          "status_importance_y",
                          "fun_importance_y",
                          "environment_importance_y"]].iloc[participant_index]), alpha=0.2)
+plt.savefig("radar.png")
 
-# plot(fig1a, 321, "independence_importance")
-# plot(fig1a, 322, "stress_importance")
-# plot(fig1a, 323, "cost_importance")
-# plot(fig1a, 324, "status_importance")
-# plot(fig1a, 325, "fun_importance")
-# plot(fig1a, 326, "environment_importance")
-# plt.savefig("importance1.png")
-#
-# fig1b = plt.figure()
-# plot(fig1b, 321, "reliability_importance")
-# plot(fig1b, 322, "comfort_importance")
-# plot(fig1b, 323, "safety_importance")
-# plot(fig1b, 324, "health_importance")
-# plt.savefig("importance2.png")
+
+fig1a = plt.figure()
+plot(fig1a, 321, "independence_importance")
+plot(fig1a, 322, "stress_importance")
+plot(fig1a, 323, "cost_importance")
+plot(fig1a, 324, "status_importance")
+plot(fig1a, 325, "fun_importance")
+plot(fig1a, 326, "environment_importance")
+plt.savefig("importance1.png")
+
+fig1b = plt.figure()
+plot(fig1b, 321, "reliability_importance")
+plot(fig1b, 322, "comfort_importance")
+plot(fig1b, 323, "safety_importance")
+plot(fig1b, 324, "health_importance")
+plt.savefig("importance2.png")
 #
 # fig2 = plt.figure()
 # plot(fig2, 321, "independence_cars")
@@ -202,6 +205,6 @@ radar.fill(tuple(result[["independence_importance_y",
 # plot(fig11, 323, "health_ebikes")
 # plot(fig11, 324, "health_transit")
 # plot(fig11, 325, "health_walk")
-# plt.savefig("health.png")
+plt.savefig("radar.png")
 
 plt.show()

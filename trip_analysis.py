@@ -8,7 +8,7 @@ from matplotlib.figure import Figure
 from itertools import groupby
 
 survey2 = pd.read_excel("survey2_participants.xlsx")
-survey2 = survey2.drop([5, 9, 14, 18])
+# survey2 = survey2.drop([5, 9, 14, 18])
 global_order_index = None
 
 
