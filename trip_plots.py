@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from pytz import timezone
 
 
 config = load_config()
@@ -20,7 +21,7 @@ def get_trips(l):
     for imei in l["IMEI"]:
         cursor.execute("SELECT start,end from trips where imei={imei}".format(imei=imei))
         result = cursor.fetchall()
-        trips += result
+        trips += [(start.replace(tzinfo=timezone('UTC')), end.replace(tzinfo=timezone('UTC'))) for (start,end) in result]
 
     return trips
 
@@ -53,8 +54,8 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     fig4 = plt.figure()
     data = [(end - start).total_seconds() // 60 for (start, end) in ftrips + mtrips]
     bins = range(0, int(max(data)) + 5, 5)
-    plt.hist(data, bins=bins, normed=True, zorder=2)
-    plt.hist(data, bins=bins, normed=True, cumulative=True, zorder=1)
+    plt.hist(data, bins=bins, zorder=2)
+    plt.hist(data, bins=bins, cumulative=True, zorder=1)
     plt.savefig("trip_duration_cum.png")
 
     fig5 = plt.figure()
