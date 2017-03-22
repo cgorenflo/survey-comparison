@@ -47,6 +47,6 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.savefig("trip_start_by_occupation.png")
 
     fig3 = plt.figure()
-    plt.hist([(end - start).total_seconds()//60 for (start,end) in ftrips+mtrips], normed=True, zorder=2)
-    plt.hist([(end - start).total_seconds() // 60 for (start, end) in ftrips + mtrips], cumulative=True, normed=True, zorder=1)
+    plt.hist([(end - start).total_seconds()//60 for (start,end) in ftrips+mtrips], 20, normed=True, zorder=2)
+    plt.hist([(end - start).total_seconds() // 60 for (start, end) in ftrips + mtrips],20, normed=True, cumulative=True, zorder=1)
     plt.savefig("trip_duration_cum.png")
