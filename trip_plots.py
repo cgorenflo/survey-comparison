@@ -70,3 +70,9 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     data = [[(end - start).total_seconds() // 60 for (start, end) in trips] for trips in [staff, students]]
     plt.hist(data, bins=bins, normed=True, zorder=2)
     plt.savefig("trip_duration_by_occupation.png")
+
+    fig7 = plt.figure()
+    data = [start.month for (start, end) in ftrips+mtrips]
+    plt.hist(data, bins=12, normed=True, zorder=2)
+    plt.savefig("trip_by_month.png")
+
