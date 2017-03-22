@@ -18,30 +18,36 @@ male_students = participants.iloc[25:32][["Email", "IMEI"]]
 eastern = timezone('Canada/Eastern')
 
 def analyze_charge(list):
-    last_entry = None
+    last_time = None
     for entry in list:
-        if last_entry is None or (DateTime(entry["time"]) - DateTime(last_entry["time"])).total_seconds() > 3600:
-            last_entry = entry
-            yield entry
-        else:
-            last_entry = entry
+        time = DateTime(entry["time"])
+        if last_time is None or (time - last_time).total_seconds() > 3600:
+            yield {"time": time, "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
+
+        last_time = time
 
 
 def get_charging(l):
     charges = []
     for imei in l["IMEI"]:
-        query = "select charging_current, discharge_current from sensor_data where imei='{imei}' and \
-            (charging_current>30 or (discharge_current < 490 and discharge_current >0)) limit 3".format(imei=int(imei))
-        print(query)
+        query = "select charging_current, discharge_current,voltage, battery_temperature from sensor_data where imei='{imei}' and \
+            (charging_current>30 or (discharge_current < 490 and discharge_current >0)) limit 1".format(imei=int(imei))
         result = influx_client.query(query)
-        print(result)
         charges += list(analyze_charge(result))
-        global last_entry
-        last_entry = None
     return charges
 
 
 with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(
         **config["webike.influx"]) as influx_client:
     fstaff = get_charging(female_staff)
-    print(fstaff)
+    with open("fstaff",mode='w') as file:
+        file.write(fstaff)
+    mstaff = get_charging(male_staff)
+    with open("mstaff",mode='w') as file:
+        file.write(mstaff)
+    fstuds = get_charging(female_students)
+    with open("fstuds",mode='w') as file:
+        file.write(fstuds)
+    mstuds = get_charging(male_students)
+    with open("mstuds",mode='w') as file:
+        file.write(mstuds)
