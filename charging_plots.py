@@ -17,27 +17,25 @@ male_students = participants.iloc[25:32][["Email", "IMEI"]]
 
 eastern = timezone('Canada/Eastern')
 
-last_entry = None
-
-def analyze_charge(entry):
-    print(entry)
-    global last_entry
-    if last_entry is None or (DateTime(entry["time"]) - DateTime(last_entry["time"])).total_seconds() > 3600:
-        last_entry = entry
-        return entry
-    else:
-        last_entry = entry
+def analyze_charge(list):
+    last_entry = None
+    for entry in list:
+        if last_entry is None or (DateTime(entry["time"]) - DateTime(last_entry["time"])).total_seconds() > 3600:
+            last_entry = entry
+            yield entry
+        else:
+            last_entry = entry
 
 
 def get_charging(l):
     charges = []
     for imei in l["IMEI"]:
         query = "select charging_current, discharge_current from sensor_data where imei='{imei}' and \
-            (charging_current>30 or (discharge_current < 490 and discharge_current >0) ) limit 3".format(imei=int(imei))
+            (charging_current>30 or (discharge_current < 490 and discharge_current >0) limit 3)".format(imei=int(imei))
         print(query)
         result = influx_client.query(query)
         print(result)
-        charges += [analyze_charge(entry) for entry in result]
+        charges += list(analyze_charge(result))
         global last_entry
         last_entry = None
     return charges
