@@ -24,7 +24,7 @@ def analyze_charge(list):
         print(entry)
         time = DateTime(entry["time"])
         if last_time is None or (time - last_time).total_seconds() > 3600:
-            yield {"time": time, "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
+            yield {"time": str(time), "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
 
         last_time = time
 
