@@ -20,6 +20,7 @@ eastern = timezone('Canada/Eastern')
 def analyze_charge(list):
     last_time = None
     for entry in list:
+        print(entry)
         time = DateTime(entry["time"])
         if last_time is None or (time - last_time).total_seconds() > 3600:
             yield {"time": time, "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
