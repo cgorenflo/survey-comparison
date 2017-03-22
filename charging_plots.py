@@ -1,5 +1,8 @@
 import ast
 from iss4e.webike.trips.auxiliary import DateTime
+import matplotlib
+
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pytz import timezone
 
