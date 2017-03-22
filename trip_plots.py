@@ -41,6 +41,18 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     staff = fsta_trips + msta_trips
     students = fstu_trips + mstu_trips
+    print("no. trips: {trips}".format(trips=str(len(ftrips+mtrips)))
+    print("no. trips male: {trips}".format(trips=str(len(mtrips)))
+    print("no. trips female: {trips}".format(trips=str(len(ftrips)))
+    print("no. trips staff: {trips}".format(trips=str(len(staff)))
+    print("no. trips students: {trips}".format(trips=str(len(students)))
+
+    print("avg no. trips: {trips}".format(trips=str(len(ftrips+mtrips)//(len(participants))
+    print("avg no. trips male: {trips}".format(trips=str(len(ftrips+mtrips)//len(male_participants)))
+    print("avg no. trips female: {trips}".format(trips=str(len(ftrips+mtrips)//len(female_participants)))
+    print("avg no. trips staff: {trips}".format(trips=str(len(ftrips+mtrips)))
+    print("avg no. trips students: {trips}".format(trips=str(len(ftrips+mtrips)))
+
 
     fig1 = plt.figure()
     plt.hist([[start.hour for (start, end) in ftrips], [start.hour for (start, end) in mtrips]], 24, normed=True)
