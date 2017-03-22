@@ -19,10 +19,14 @@ eastern = timezone('Canada/Eastern')
 
 def analyze_charge(list):
     last_time = None
+    start = None
     for entry in list[config["webike.measurement"]]:
         time = DateTime(entry["time"])
-        if last_time is None or (time - last_time).total_seconds() > 3600:
-            yield {"time": str(time), "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
+        if start is None:
+            start = time
+        elif last_time is not None and (time - last_time).total_seconds() > 3600 and (last_time - start).total_seconds() > 600 :
+            yield {"time": str(start), "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
+            start = time
 
         last_time = time
 
