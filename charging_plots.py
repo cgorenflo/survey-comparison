@@ -19,9 +19,7 @@ eastern = timezone('Canada/Eastern')
 
 def analyze_charge(list):
     last_time = None
-    print(list)
     for entry in list['sensor_data']:
-        print(entry)
         time = DateTime(entry["time"])
         if last_time is None or (time - last_time).total_seconds() > 3600:
             yield {"time": str(time), "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
@@ -33,8 +31,8 @@ def get_charging(l):
     charges = []
     for imei in l["IMEI"]:
         query = "select charging_current, discharge_current,voltage, battery_temperature from sensor_data where imei='{imei}' and \
-            (charging_current>30 or (discharge_current < 490 and discharge_current >0)) limit 1".format(imei=int(imei))
-        result = influx_client.query(query)
+            (charging_current>30 or (discharge_current < 490 and discharge_current >0))".format(imei=int(imei))
+        result = influx_client.stream_query(query)
         charges += list(analyze_charge(result))
     return charges
 
