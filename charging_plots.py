@@ -42,3 +42,4 @@ def get_charging(l):
 with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(
         **config["webike.influx"]) as influx_client:
     fstaff = get_charging(female_staff)
+    print(fstaff)
