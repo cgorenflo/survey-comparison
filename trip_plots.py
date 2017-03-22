@@ -48,7 +48,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     print("no. trips staff: {trips}".format(trips=str(len(staff))))
     print("no. trips students: {trips}".format(trips=str(len(students))))
 
-    print("avg no. trips: {trips}".format(trips=str(len(ftrips+mtrips)//len(staff)+len(students))))
+    print("avg no. trips: {trips}".format(trips=str(len(ftrips+mtrips)//(len(staff)+len(students)))))
     print("avg no. trips male: {trips}".format(trips=str(len(mtrips)//(len(male_staff)+len(male_students)))))
     print("avg no. trips female: {trips}".format(trips=str(len(ftrips)//(len(female_staff)+len(female_students)))))
     print("avg no. trips staff: {trips}".format(trips=str(len(staff)//(len(female_staff)+len(male_staff)))))
