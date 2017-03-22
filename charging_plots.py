@@ -43,13 +43,13 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(
         **config["webike.influx"]) as influx_client:
     fstaff = get_charging(female_staff)
     with open("fstaff",mode='w') as file:
-        file.write(fstaff)
+        file.writelines("{line}\n".format(line= line) for line in fstaff)
     mstaff = get_charging(male_staff)
     with open("mstaff",mode='w') as file:
-        file.write(mstaff)
+        file.writelines("{line}\n".format(line=line) for line in mstaff)
     fstuds = get_charging(female_students)
     with open("fstuds",mode='w') as file:
-        file.write(fstuds)
+        file.writelines("{line}\n".format(line=line) for line in fstuds)
     mstuds = get_charging(male_students)
     with open("mstuds",mode='w') as file:
-        file.write(mstuds)
+        file.writelines("{line}\n".format(line=line) for line in mstuds)
