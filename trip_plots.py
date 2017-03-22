@@ -18,9 +18,9 @@ male_students = participants.iloc[25:32][["Email","IMEI"]]
 def get_trips(l):
     trips = []
     for imei in l["IMEI"]:
-        cursor.execute("SELECT start from trips where imei={imei}".format(imei=imei))
+        cursor.execute("SELECT start,end from trips where imei={imei}".format(imei=imei))
         result = cursor.fetchall()
-        trips = trips + [time.hour for (time,) in result]
+        trips += result
 
     return trips
 
@@ -39,9 +39,14 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     students = fstu_trips + mstu_trips
 
     fig1 = plt.figure()
-    _ = plt.hist([ftrips,mtrips],24, normed=True)
+    plt.hist([[start.hour for (start,end) in ftrips],[start.hour for (start, end) in mtrips]],24, normed=True)
     plt.savefig("trip_start_by_gender.png")
 
     fig2 = plt.figure()
-    _ = plt.hist([staff,students],24, normed=True)
+    plt.hist([[start.hour for (start,end) in staff],[start.hour for (start, end) in students]],24, normed=True)
     plt.savefig("trip_start_by_occupation.png")
+
+    fig3 = plt.figure()
+    plt.hist([(end - start).total_seconds()//60 for (start,end) in ftrips+mtrips], normed=True)
+    plt.hist([(end - start).total_seconds() // 60 for (start, end) in ftrips + mtrips], cumulative=True, normed=True)
+    plt.savefig("trip_duration_cum.png")
