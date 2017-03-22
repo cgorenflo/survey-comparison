@@ -20,7 +20,7 @@ eastern = timezone('Canada/Eastern')
 def analyze_charge(list):
     last_time = None
     print(list)
-    for entry in list:
+    for entry in list[0]:
         print(entry)
         time = DateTime(entry["time"])
         if last_time is None or (time - last_time).total_seconds() > 3600:
