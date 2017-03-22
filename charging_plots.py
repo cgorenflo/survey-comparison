@@ -19,6 +19,7 @@ eastern = timezone('Canada/Eastern')
 
 def analyze_charge(list):
     last_time = None
+    print(list)
     for entry in list:
         print(entry)
         time = DateTime(entry["time"])
