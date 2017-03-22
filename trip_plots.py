@@ -2,6 +2,7 @@ from iss4e.db import mysql
 from iss4e.util.config import load_config
 import pandas as pd
 import matplotlib
+import numpy as np
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -41,17 +42,17 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     staff = fsta_trips + msta_trips
     students = fstu_trips + mstu_trips
-    print("no. trips: {trips}".format(trips=str(len(ftrips+mtrips)))
-    print("no. trips male: {trips}".format(trips=str(len(mtrips)))
-    print("no. trips female: {trips}".format(trips=str(len(ftrips)))
-    print("no. trips staff: {trips}".format(trips=str(len(staff)))
-    print("no. trips students: {trips}".format(trips=str(len(students)))
+    print("no. trips: {trips}".format(trips=str(len(ftrips+mtrips))))
+    print("no. trips male: {trips}".format(trips=str(len(mtrips))))
+    print("no. trips female: {trips}".format(trips=str(len(ftrips))))
+    print("no. trips staff: {trips}".format(trips=str(len(staff))))
+    print("no. trips students: {trips}".format(trips=str(len(students))))
 
-    print("avg no. trips: {trips}".format(trips=str(len(ftrips+mtrips)//(len(participants))
-    print("avg no. trips male: {trips}".format(trips=str(len(ftrips+mtrips)//len(male_participants)))
-    print("avg no. trips female: {trips}".format(trips=str(len(ftrips+mtrips)//len(female_participants)))
-    print("avg no. trips staff: {trips}".format(trips=str(len(ftrips+mtrips)))
-    print("avg no. trips students: {trips}".format(trips=str(len(ftrips+mtrips)))
+    print("avg no. trips: {trips}".format(trips=str(len(ftrips+mtrips)//len(participants))))
+    print("avg no. trips male: {trips}".format(trips=str(len(mtrips)//(len(male_staff)+len(male_students)))))
+    print("avg no. trips female: {trips}".format(trips=str(len(ftrips)//(len(female_staff)+len(female_students)))))
+    print("avg no. trips staff: {trips}".format(trips=str(len(staff)//(len(female_staff)+len(male_staff)))))
+    print("avg no. trips students: {trips}".format(trips=str(len(students)//(len(male_students)+len(female_students)))))
 
 
     fig1 = plt.figure()
@@ -68,6 +69,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     fig4 = plt.figure()
     data = [(end - start).total_seconds() // 60 for (start, end) in ftrips + mtrips]
+    print("avg dur trips: {trips}".format(trips=np.mean(data)))
     bins = range(0, int(max(data)) + 5, 5)
     plt.hist(data, bins=bins, zorder=2)
     plt.hist(data, bins=bins, cumulative=True, zorder=1)
@@ -75,11 +77,15 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     fig5 = plt.figure()
     data = [[(end - start).total_seconds() // 60 for (start, end) in trips] for trips in [mtrips, ftrips]]
+    print("avg dur trips male: {trips}".format(trips=np.mean(data[0])))
+    print("avg dur trips female: {trips}".format(trips=np.mean(data[1])))
     plt.hist(data, bins=bins, normed=True, zorder=2)
     plt.savefig("trip_duration_by_gender.png")
 
     fig6 = plt.figure()
     data = [[(end - start).total_seconds() // 60 for (start, end) in trips] for trips in [staff, students]]
+    print("avg dur trips staff: {trips}".format(trips=np.mean(data[0])))
+    print("avg dur trips students: {trips}".format(trips=np.mean(data[1])))
     plt.hist(data, bins=bins, normed=True, zorder=2)
     plt.savefig("trip_duration_by_occupation.png")
 
