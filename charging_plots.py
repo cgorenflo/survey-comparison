@@ -37,6 +37,7 @@ def get_charging(l):
         print(query)
         result = influx_client.stream_query(query)
         charges += [analyze_charge(entry) for entry in result]
+        print("----------------------------")
     return charges
 
 
