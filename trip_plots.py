@@ -21,7 +21,7 @@ def get_trips(l):
     for imei in l["IMEI"]:
         cursor.execute("SELECT start,end from trips where imei={imei}".format(imei=imei))
         result = cursor.fetchall()
-        trips += [(start.replace(tzinfo=timezone('UTC')), end.replace(tzinfo=timezone('UTC'))) for (start,end) in result]
+        trips += [(start.replace(tzinfo=timezone('Canada/Eastern')), end.replace(tzinfo=timezone('Canada/Eastern'))) for (start,end) in result]
 
     return trips
 
