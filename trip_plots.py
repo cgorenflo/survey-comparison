@@ -47,8 +47,22 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.savefig("trip_start_by_occupation.png")
 
     fig3 = plt.figure()
+    plt.hist([start.hour for (start, end) in ftrips+mtrips], 24, normed=True)
+    plt.savefig("trip_start_all.png")
+
+    fig4 = plt.figure()
     data = [(end - start).total_seconds() // 60 for (start, end) in ftrips + mtrips]
     bins = range(0, int(max(data)) + 5, 5)
     plt.hist(data, bins=bins, normed=True, zorder=2)
     plt.hist(data, bins=bins, normed=True, cumulative=True, zorder=1)
     plt.savefig("trip_duration_cum.png")
+
+    fig5 = plt.figure()
+    data = [[(end - start).total_seconds() // 60 for (start, end) in trips] for trips in [mtrips, ftrips]]
+    plt.hist(data, bins=bins, normed=True, zorder=2)
+    plt.savefig("trip_duration_by_gender.png")
+
+    fig6 = plt.figure()
+    data = [[(end - start).total_seconds() // 60 for (start, end) in trips] for trips in [staff, students]]
+    plt.hist(data, bins=bins, normed=True, zorder=2)
+    plt.savefig("trip_duration_by_occupation.png")
