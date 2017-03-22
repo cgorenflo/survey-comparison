@@ -1,53 +1,46 @@
-import matplotlib
-import pandas as pd
-from iss4e.db import influxdb, mysql
-from iss4e.util.config import load_config
+import ast
 from iss4e.webike.trips.auxiliary import DateTime
-
-matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 from pytz import timezone
-
-config = load_config()
-
-participants = pd.read_excel("participant map.xlsx", header=[1])
-female_staff = participants.iloc[1:8][["Email", "IMEI"]]
-male_staff = participants.iloc[10:16][["Email", "IMEI"]]
-female_students = participants.iloc[18:23][["Email", "IMEI"]]
-male_students = participants.iloc[25:32][["Email", "IMEI"]]
 
 eastern = timezone('Canada/Eastern')
 
-def analyze_charge(list):
-    last_time = None
-    for entry in list:
-        time = DateTime(entry["time"])
-        if last_time is None or (time - last_time).total_seconds() > 3600:
-            yield {"time": str(time), "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
 
-        last_time = time
+def to_datetime(time):
+    return DateTime(time)._datetime.replace(tzinfo=timezone('UTC')).astimezone(eastern)
 
 
-def get_charging(l):
-    charges = []
-    for imei in l["IMEI"]:
-        query = "select charging_current, discharge_current,voltage, battery_temperature from sensor_data where imei='{imei}' and \
-            (charging_current>30 or (discharge_current < 490 and discharge_current >0))".format(imei=int(imei))
-        result = influx_client.stream_query(query)
-        charges += list(analyze_charge(result))
-    return charges
+with open("fstaff", mode='w') as file:
+    fstaff = (ast.literal_eval(line) for line in file.read().splitlines())
+    for line in fstaff:
+        line["time"] = to_datetime(line["time"])
+with open("mstaff", mode='w') as file:
+    mstaff = (ast.literal_eval(line) for line in file.read().splitlines())
+    for line in mstaff:
+        line["time"] = to_datetime(line["time"])
+with open("fstuds", mode='w') as file:
+    fstuds = (ast.literal_eval(line) for line in file.read().splitlines())
+    for line in fstuds:
+        line["time"] = to_datetime(line["time"])
+with open("mstuds", mode='w') as file:
+    mstuds = (ast.literal_eval(line) for line in file.read().splitlines())
+    for line in mstuds:
+        line["time"] = to_datetime(line["time"])
 
+fcharge = fstuds + fstaff
+mcharge = mstuds + mstaff
 
-with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(
-        **config["webike.influx"]) as influx_client:
-    fstaff = get_charging(female_staff)
-    with open("fstaff",mode='w') as file:
-        file.writelines("{line}\n".format(line= line) for line in fstaff)
-    mstaff = get_charging(male_staff)
-    with open("mstaff",mode='w') as file:
-        file.writelines("{line}\n".format(line=line) for line in mstaff)
-    fstuds = get_charging(female_students)
-    with open("fstuds",mode='w') as file:
-        file.writelines("{line}\n".format(line=line) for line in fstuds)
-    mstuds = get_charging(male_students)
-    with open("mstuds",mode='w') as file:
-        file.writelines("{line}\n".format(line=line) for line in mstuds)
+staff = fstaff + mstaff
+students = fstuds + mstuds
+
+fig1 = plt.figure()
+plt.hist([[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]], 24, normed=True)
+plt.savefig("charge_start_by_gender.png")
+
+fig2 = plt.figure()
+plt.hist([[entry["time"].hour for entry in staff], [entry["time"].hour for entry in students]], 24, normed=True)
+plt.savefig("charge_start_by_occupation.png")
+
+fig3 = plt.figure()
+plt.hist([entry["time"].hour for entry in fcharge + mcharge], 24, normed=True)
+plt.savefig("charge_start_all.png")
