@@ -11,19 +11,19 @@ def to_datetime(time):
 
 
 with open("fstaff", mode='r') as file:
-    fstaff = [(ast.literal_eval(line) for line in file.read().splitlines())]
+    fstaff = [ast.literal_eval(line) for line in file.read().splitlines()]
     for line in fstaff:
         line["time"] = to_datetime(line["time"])
 with open("mstaff", mode='r') as file:
-    mstaff = [(ast.literal_eval(line) for line in file.read().splitlines())]
+    mstaff = [ast.literal_eval(line) for line in file.read().splitlines()]
     for line in mstaff:
         line["time"] = to_datetime(line["time"])
 with open("fstuds", mode='r') as file:
-    fstuds = [(ast.literal_eval(line) for line in file.read().splitlines())]
+    fstuds = [ast.literal_eval(line) for line in file.read().splitlines()]
     for line in fstuds:
         line["time"] = to_datetime(line["time"])
 with open("mstuds", mode='r') as file:
-    mstuds = [(ast.literal_eval(line) for line in file.read().splitlines())]
+    mstuds = [ast.literal_eval(line) for line in file.read().splitlines()]
     for line in mstuds:
         line["time"] = to_datetime(line["time"])
 
@@ -42,5 +42,5 @@ plt.hist([[entry["time"].hour for entry in staff], [entry["time"].hour for entry
 plt.savefig("charge_start_by_occupation.png")
 
 fig3 = plt.figure()
-plt.hist([entry["time"].hour for entry in fcharge + mcharge], 24, normed=True)
+plt.hist([entry["time"].hour for entry in fcharge + mcharge], 24, normed=True, rwidth=0.9)
 plt.savefig("charge_start_all.png")
