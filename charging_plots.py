@@ -2,6 +2,7 @@ import matplotlib
 import pandas as pd
 from iss4e.db import influxdb, mysql
 from iss4e.util.config import load_config
+from iss4e.webike.trips.auxiliary import DateTime
 
 matplotlib.use('Agg')
 from pytz import timezone
@@ -21,7 +22,7 @@ last_entry = None
 def analyze_charge(entry):
     print(entry)
     global last_entry
-    if last_entry is None or last_entry["time"] + 60* 1000< entry["time"]:
+    if last_entry is None or (DateTime(entry["time"]) - DateTime(last_entry["time"])).total_seconds() > 3600:
         last_entry = entry
         return entry
     else:
@@ -32,7 +33,7 @@ def get_charging(l):
     charges = []
     for imei in l["IMEI"]:
         result = influx_client.stream_query(
-            "select count(charging_current), count(discharge_current) from sensor_data where imei='353323057856089' and "
+            "select charging_current, discharge_current from sensor_data where imei='353323057856089' and "
             "(charging_current>30 or (discharge_current < 490 and discharge_current >0) ) limit 10")
         charges += [analyze_charge(entry) for entry in result]
     return charges
