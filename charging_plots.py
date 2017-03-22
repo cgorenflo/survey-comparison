@@ -11,19 +11,19 @@ def to_datetime(time):
 
 
 with open("fstaff", mode='w') as file:
-    fstaff = (ast.literal_eval(line) for line in file.read().splitlines())
+    fstaff = [(ast.literal_eval(line) for line in file.read().splitlines())]
     for line in fstaff:
         line["time"] = to_datetime(line["time"])
 with open("mstaff", mode='w') as file:
-    mstaff = (ast.literal_eval(line) for line in file.read().splitlines())
+    mstaff = [(ast.literal_eval(line) for line in file.read().splitlines())]
     for line in mstaff:
         line["time"] = to_datetime(line["time"])
 with open("fstuds", mode='w') as file:
-    fstuds = (ast.literal_eval(line) for line in file.read().splitlines())
+    fstuds = [(ast.literal_eval(line) for line in file.read().splitlines())]
     for line in fstuds:
         line["time"] = to_datetime(line["time"])
 with open("mstuds", mode='w') as file:
-    mstuds = (ast.literal_eval(line) for line in file.read().splitlines())
+    mstuds = [(ast.literal_eval(line) for line in file.read().splitlines())]
     for line in mstuds:
         line["time"] = to_datetime(line["time"])
 
