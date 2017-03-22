@@ -35,7 +35,7 @@ def get_charging(l):
         query = "select charging_current, discharge_current from sensor_data where imei='{imei}' and \
             (charging_current>30 or (discharge_current < 490 and discharge_current >0) ) limit 3".format(imei=int(imei))
         print(query)
-        result = influx_client.stream_query(query)
+        result = influx_client.query(query)
         print(result)
         charges += [analyze_charge(entry) for entry in result]
         global last_entry
