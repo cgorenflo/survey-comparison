@@ -32,9 +32,10 @@ def analyze_charge(entry):
 def get_charging(l):
     charges = []
     for imei in l["IMEI"]:
-        result = influx_client.stream_query(
-            "select charging_current, discharge_current from sensor_data where imei='%imei' and "
-            "(charging_current>30 or (discharge_current < 490 and discharge_current >0) ) limit 3".format(imei=imei))
+        query = "select charging_current, discharge_current from sensor_data where imei='%imei' and \
+            (charging_current>30 or (discharge_current < 490 and discharge_current >0) ) limit 3".format(imei=imei)
+        print(query)
+        result = influx_client.stream_query(query)
         charges += [analyze_charge(entry) for entry in result]
     return charges
 
