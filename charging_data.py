@@ -19,7 +19,7 @@ eastern = timezone('Canada/Eastern')
 
 def analyze_charge(list):
     last_time = None
-    for entry in list[config["webike.influx.measurement"]]:
+    for entry in list[config["webike.measurement"]]:
         time = DateTime(entry["time"])
         if last_time is None or (time - last_time).total_seconds() > 3600:
             yield {"time": str(time), "voltage":entry["voltage"], "temp":entry["battery_temperature"]}
@@ -31,7 +31,7 @@ def get_charging(l):
     charges = []
     for imei in l["IMEI"]:
         query = "select charging_current, discharge_current,voltage, battery_temperature from {measurement} where imei='{imei}' and \
-            (charging_current>30 or (discharge_current < 490 and discharge_current >0))".format(measurement=config["webike.influx.measurement"], imei=int(imei))
+            (charging_current>30 or (discharge_current < 490 and discharge_current >0))".format(measurement=config["webike.measurement"], imei=int(imei))
         result = influx_client.query(query)
         charges += list(analyze_charge(result))
     return charges
