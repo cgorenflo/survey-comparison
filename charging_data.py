@@ -26,7 +26,7 @@ def analyze_charge(list):
         if start is None:
             start = time
             start_entry = entry
-        elif last_time is not None and (time - last_time).total_seconds() > 7200 and (last_time - start).total_seconds() > 600:
+        elif last_time is not None and (time - last_time).total_seconds() > 3600*8 and (last_time - start).total_seconds() > 600:
             yield {"time": str(start), "voltage":start_entry["voltage"], "temp":start_entry["battery_temperature"]}
             start = time
             start_entry = entry
