@@ -1,6 +1,6 @@
 import ast
 from iss4e.webike.trips.auxiliary import DateTime
-from webike.data.SoC as soc
+import webike.data.SoC as soc
 import matplotlib
 import trip_plots
 
