@@ -1,13 +1,14 @@
 import ast
 from iss4e.webike.trips.auxiliary import DateTime
 import matplotlib
+import trip_plots
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pytz import timezone
+import pandas as pd
 
 eastern = timezone('Canada/Eastern')
-
 
 def to_datetime(time):
     return DateTime(time)._datetime.replace(tzinfo=timezone('UTC')).astimezone(eastern)
@@ -35,6 +36,26 @@ mcharge = mstuds + mstaff
 
 staff = fstaff + mstaff
 students = fstuds + mstuds
+
+print("no. charges: {charge}".format(charge=str(len(staff + students))))
+print("no. charges male: {charge}".format(charge=str(len(mcharge))))
+print("no. charges female: {charge}".format(charge=str(len(fcharge))))
+print("no. charges staff: {charge}".format(charge=str(len(staff))))
+print("no. charges students: {charge}".format(charge=str(len(students))))
+
+print("avg no. charges: {charge}".format(charge=str(
+    len(staff + students) // (len(trip_plots.male_staff) + len(trip_plots.male_students) + len(trip_plots.female_staff) + len(trip_plots.female_students)))))
+print("avg no. charges male: {charge}".format(charge=str(len(mcharge) // (len(trip_plots.male_staff) + len(trip_plots.male_students)))))
+print("avg no. charges female: {charge}".format(charge=str(len(fcharge) // (len(trip_plots.female_staff) + len(trip_plots.female_students)))))
+print("avg no. charges staff: {charge}".format(charge=str(len(staff) // (len(trip_plots.female_staff) + len(trip_plots.male_staff)))))
+print("avg no. charges students: {charge}".format(
+    charge=str(len(students) // (len(trip_plots.male_students) + len(trip_plots.female_students)))))
+
+print("no. trips per charge: {charge}".format(charge=str(len(trip_plots.staff + trip_plots.students)// len(staff + students))))
+print("no. trips per charge male: {charge}".format(charge=str(len(trip_plots.mtrips)// len(mcharge))))
+print("no. trips per charge female: {charge}".format(charge=str(len(trip_plots.ftrips)//len(fcharge))))
+print("no. trips per charge staff: {charge}".format(charge=str(len(trip_plots.staff )//len(staff))))
+print("no. trips per charge students: {charge}".format(charge=str(len(trip_plots.students)//len(students))))
 
 fig1 = plt.figure()
 plt.hist([[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]], 24, normed=True)

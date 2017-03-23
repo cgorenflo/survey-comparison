@@ -65,15 +65,15 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.savefig("trip_start_by_occupation.png")
 
     fig3 = plt.figure()
-    plt.hist([start.hour for (start, end) in ftrips + mtrips], 24, normed=True)
+    plt.hist([start.hour for (start, end) in ftrips + mtrips], 24, normed=True, rwidth=0.9)
     plt.savefig("trip_start_all.png")
 
     fig4 = plt.figure()
     data = [(end - start).total_seconds() // 60 for (start, end) in ftrips + mtrips]
     print("avg dur trips: {trips}".format(trips=np.mean(data)))
     bins = range(0, int(max(data)) + 5, 5)
-    plt.hist(data, bins=bins, zorder=2)
-    plt.hist(data, bins=bins, cumulative=True, zorder=1)
+    plt.hist(data, bins=bins, zorder=2, rwidth=0.9)
+    plt.hist(data, bins=bins, cumulative=True, zorder=1, rwidth=0.9)
     plt.savefig("trip_duration_cum.png")
 
     fig5 = plt.figure()
