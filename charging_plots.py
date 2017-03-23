@@ -71,5 +71,5 @@ plt.hist([entry["time"].hour for entry in fcharge + mcharge], 24, normed=True, r
 plt.savefig("charge_start_all.png")
 
 fig4 = plt.figure()
-plt.hist([soc.calc_soc(soc.choose_temp(entry["temp"]),entry["voltage"]) for entry in fcharge + mcharge], normed = True, rwidth=0.9)
+plt.hist([soc.calc_soc(soc.choose_temp(entry["temp"]),entry["voltage"]) for entry in fcharge + mcharge if entry["voltage"] is not None and entry["temp"] is not None], normed = True, rwidth=0.9)
 plt.savefig("charge_start_by_soc.png")
