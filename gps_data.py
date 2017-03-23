@@ -36,9 +36,10 @@ def write_gps_data(trips_collection, file_name):
     for imei, trips in trips_collection.items():
         gps[imei] = []
         for start, end in trips:
-            result = influx_client.query(
-                "select latitude, longitude from {measurement} where imei='{imei}' and time >= start and time <= end and longitude != 0 and latitude != 0 limit 2".format(
-                    imei=imei, measurement=config["webike.measurement"]))
+            query = "select latitude, longitude from {measurement} where imei='{imei}' and time >= {start} and time <= {end} and longitude != 0 and latitude != 0 limit 2".format(
+                imei=imei, measurement=config["webike.measurement"], start=start, end=end)
+
+            result = influx_client.query(query)
             gps[imei].append(result[config["webike.measurement"]])
     with open("file_name", mode='w') as file:
         file.write(gps)
@@ -61,4 +62,3 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(
     write_gps_data(mtrips, "mgps")
     write_gps_data(staff, "staffgps")
     write_gps_data(students, "studentsgps")
-
