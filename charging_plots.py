@@ -84,17 +84,17 @@ def calc_soc_data(l):
             entry["voltage"] is not None and entry["temp"] is not None]
 
 
+bins = 20
 fig4 = plt.figure()
-plt.hist(calc_soc_data(fcharge + mcharge), rwidth=0.9, zorder=2)
-plt.hist([soc.calc_soc(soc.choose_temp(entry["temp"]), entry["voltage"]) for entry in fcharge + mcharge if
-          entry["voltage"] is not None and entry["temp"] is not None], rwidth=0.9, cumulative=True,
+plt.hist(calc_soc_data(fcharge + mcharge), bins, rwidth=0.9, zorder=2)
+plt.hist(calc_soc_data(fcharge + mcharge), bins, rwidth=0.9, cumulative=True,
          zorder=1)
 plt.savefig("charge_start_by_soc.png")
 
 fig5 = plt.figure()
-plt.hist([calc_soc_data(fcharge), calc_soc_data(mcharge)], normed=True)
+plt.hist([calc_soc_data(fcharge), calc_soc_data(mcharge)], bins, normed=True)
 plt.savefig("charge_start_by_soc_by_gender.png")
 
 fig6 = plt.figure()
-plt.hist([calc_soc_data(staff), calc_soc_data(students)], normed=True)
+plt.hist([calc_soc_data(staff), calc_soc_data(students)], bins, normed=True)
 plt.savefig("charge_start_by_soc_by_occupation.png")
