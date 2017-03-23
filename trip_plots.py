@@ -92,5 +92,5 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     fig7 = plt.figure()
     data = [start.month for (start, end) in ftrips + mtrips]
-    plt.hist(data, bins=12, normed=True, zorder=2)
+    plt.hist(data, bins=12, normed=True, zorder=2, rwidth=0.9)
     plt.savefig("trip_by_month.png")

@@ -1,12 +1,13 @@
 import ast
 from iss4e.webike.trips.auxiliary import DateTime
+from webike.data.SoC as soc
 import matplotlib
 import trip_plots
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from pytz import timezone
-import pandas as pd
+
 
 eastern = timezone('Canada/Eastern')
 
@@ -68,3 +69,7 @@ plt.savefig("charge_start_by_occupation.png")
 fig3 = plt.figure()
 plt.hist([entry["time"].hour for entry in fcharge + mcharge], 24, normed=True, rwidth=0.9)
 plt.savefig("charge_start_all.png")
+
+fig4 = plt.figure()
+plt.hist([soc.calc_soc(soc.choose_temp(entry["temp"]),entry["voltage"]) for entry in fcharge + mcharge], normed = True, rwidth=0.9)
+plt.savefig("charge_start_by_soc.png")
