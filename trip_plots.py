@@ -81,7 +81,6 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.xlabel("hour of day")
     plt.ylabel("probability")
     plt.legend()
-    plt.tight_layout()
     plt.savefig("trip_start_all.png")
 
     fig4 = plt.figure()
@@ -121,4 +120,5 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.xticks(range(1,13),["January", "Febuary", "March", "Arpil", "May", "June", "July", "August", "September", "October", "November", "December"], rotation=20)
     plt.ylabel("probability")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("trip_by_month.png")
