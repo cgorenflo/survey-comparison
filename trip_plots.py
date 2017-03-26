@@ -63,6 +63,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.xlabel("hour of day")
     plt.ylabel("probability")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("trip_start_by_gender.png")
 
     fig2 = plt.figure()
@@ -72,6 +73,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.xlabel("hour of day")
     plt.ylabel("probability")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("trip_start_by_occupation.png")
 
     fig3 = plt.figure()
@@ -81,6 +83,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.xlabel("hour of day")
     plt.ylabel("probability")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("trip_start_all.png")
 
     fig4 = plt.figure()
@@ -92,6 +95,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.xlabel("average trip duration (min)")
     plt.ylabel("frequency")
     plt.legend(loc=1)
+    plt.tight_layout()
     plt.savefig("trip_duration_cum.png")
 
     fig5 = plt.figure()
@@ -102,6 +106,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.xlabel("average trip duration (min)")
     plt.ylabel("probability")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("trip_duration_by_gender.png")
 
     fig6 = plt.figure()
@@ -112,12 +117,13 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.xlabel("average trip duration (min)")
     plt.ylabel("probability")
     plt.legend()
+    plt.tight_layout()
     plt.savefig("trip_duration_by_occupation.png")
 
     fig7 = plt.figure()
     data = [start.month for (start, end) in ftrips + mtrips]
     plt.hist(data, bins=range(1,13), normed=True, zorder=2, rwidth=0.9, label=["all participants"])
-    plt.xticks(range(1,13),["January", "Febuary", "March", "Arpil", "May", "June", "July", "August", "September", "October", "November", "December"], rotation=30)
+    plt.xticks(range(1,13),["January", "Febuary", "March", "Arpil", "May", "June", "July", "August", "September", "October", "November", "December"], rotation=30, ha="right")
     plt.ylabel("probability")
     plt.legend()
     plt.tight_layout()

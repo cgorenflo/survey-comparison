@@ -67,15 +67,30 @@ print("no. trips per charge staff: {charge}".format(charge=str(len(trip_plots.st
 print("no. trips per charge students: {charge}".format(charge=str(len(trip_plots.students) / len(students))))
 
 fig1 = plt.figure()
-plt.hist([[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]], 23, normed=True)
+plt.hist([[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]], bins=range(0,25), normed=True, label=["female", "male"])
+plt.xticks(range(0, 24, 2))
+plt.xlabel("hour of day")
+plt.ylabel("probability")
+plt.legend()
+plt.tight_layout()
 plt.savefig("charge_start_by_gender.png")
 
 fig2 = plt.figure()
-plt.hist([[entry["time"].hour for entry in staff], [entry["time"].hour for entry in students]], 23, normed=True)
+plt.hist([[entry["time"].hour for entry in staff], [entry["time"].hour for entry in students]], bins=range(0,25), normed=True, label=["staff/faculty", "students"])
+plt.xticks(range(0, 24, 2))
+plt.xlabel("hour of day")
+plt.ylabel("probability")
+plt.legend()
+plt.tight_layout()
 plt.savefig("charge_start_by_occupation.png")
 
 fig3 = plt.figure()
-plt.hist([entry["time"].hour for entry in fcharge + mcharge], 23, normed=True, rwidth=0.9)
+plt.hist([entry["time"].hour for entry in fcharge + mcharge], bins=range(0,25), normed=True, rwidth=0.9, label=["all participants"])
+plt.xticks(range(0, 24, 2))
+plt.xlabel("hour of day")
+plt.ylabel("probability")
+plt.legend()
+plt.tight_layout()
 plt.savefig("charge_start_all.png")
 
 
@@ -86,15 +101,27 @@ def calc_soc_data(l):
 
 bins = 20
 fig4 = plt.figure()
-plt.hist(calc_soc_data(fcharge + mcharge), bins, rwidth=0.9, zorder=2)
-plt.hist(calc_soc_data(fcharge + mcharge), bins, rwidth=0.9, cumulative=True,
+plt.hist(calc_soc_data(fcharge + mcharge), bins, rwidth=0.9, zorder=2, label = "all aprticipants")
+plt.hist(calc_soc_data(fcharge + mcharge), bins, rwidth=0.9, cumulative=True,label = "all participants (cum.)",
          zorder=1)
+plt.xlabel("state of charge (percentage)")
+plt.ylabel("frequency")
+plt.legend()
+plt.tight_layout()
 plt.savefig("charge_start_by_soc.png")
 
 fig5 = plt.figure()
-plt.hist([calc_soc_data(fcharge), calc_soc_data(mcharge)], bins, normed=True)
+plt.hist([calc_soc_data(fcharge), calc_soc_data(mcharge)], bins, normed=True, label=["female", "male"])
+plt.xlabel("state of charge (percentage)")
+plt.ylabel("probability")
+plt.legend()
+plt.tight_layout()
 plt.savefig("charge_start_by_soc_by_gender.png")
 
 fig6 = plt.figure()
-plt.hist([calc_soc_data(staff), calc_soc_data(students)], bins, normed=True)
+plt.hist([calc_soc_data(staff), calc_soc_data(students)], bins, normed=True,label=["staff/faculty", "students"])
+plt.xlabel("state of charge (percentage)")
+plt.ylabel("probability")
+plt.legend()
+plt.tight_layout()
 plt.savefig("charge_start_by_soc_by_occupation.png")
