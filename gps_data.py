@@ -56,7 +56,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(
     staff = dict(fsta_trips, **msta_trips)
     students = dict(fstu_trips, **mstu_trips)
 
-    write_gps_data(ftrips, "fgps")
-    write_gps_data(mtrips, "mgps")
-    write_gps_data(staff, "staffgps")
-    write_gps_data(students, "studentsgps")
+    write_gps_data(ftrips, "data/fgps")
+    write_gps_data(mtrips, "data/mgps")
+    write_gps_data(staff, "data/staffgps")
+    write_gps_data(students, "data/studentsgps")

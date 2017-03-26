@@ -9,10 +9,10 @@ def read (file_name):
     with open(file_name, mode='r') as file:
         return ast.literal_eval(file.read())
 
-fgps = read("fgps")
-mgps = read("mgps")
-staffgps = read("staffgps")
-studentsgps = read("studentsgps")
+fgps = read("data/fgps")
+mgps = read("data/mgps")
+staffgps = read("data/staffgps")
+studentsgps = read("data/studentsgps")
 
 
 def get_average_speed(gps_by_trips):

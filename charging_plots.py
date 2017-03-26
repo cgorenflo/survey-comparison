@@ -17,19 +17,19 @@ def to_datetime(time):
     return DateTime(time)._datetime.replace(tzinfo=timezone('UTC')).astimezone(eastern)
 
 
-with open("fstaff", mode='r') as file:
+with open("data/fstaff_charging", mode='r') as file:
     fstaff = [ast.literal_eval(line) for line in file.read().splitlines()]
     for line in fstaff:
         line["time"] = to_datetime(line["time"])
-with open("mstaff", mode='r') as file:
+with open("data/mstaff_charging", mode='r') as file:
     mstaff = [ast.literal_eval(line) for line in file.read().splitlines()]
     for line in mstaff:
         line["time"] = to_datetime(line["time"])
-with open("fstuds", mode='r') as file:
+with open("data/fstuds_charging", mode='r') as file:
     fstuds = [ast.literal_eval(line) for line in file.read().splitlines()]
     for line in fstuds:
         line["time"] = to_datetime(line["time"])
-with open("mstuds", mode='r') as file:
+with open("data/mstuds_charging", mode='r') as file:
     mstuds = [ast.literal_eval(line) for line in file.read().splitlines()]
     for line in mstuds:
         line["time"] = to_datetime(line["time"])
