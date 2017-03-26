@@ -67,15 +67,15 @@ print("no. trips per charge staff: {charge}".format(charge=str(len(trip_plots.st
 print("no. trips per charge students: {charge}".format(charge=str(len(trip_plots.students) / len(students))))
 
 fig1 = plt.figure()
-plt.hist([[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]], 24, normed=True)
+plt.hist([[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]], 23, normed=True)
 plt.savefig("charge_start_by_gender.png")
 
 fig2 = plt.figure()
-plt.hist([[entry["time"].hour for entry in staff], [entry["time"].hour for entry in students]], 24, normed=True)
+plt.hist([[entry["time"].hour for entry in staff], [entry["time"].hour for entry in students]], 23, normed=True)
 plt.savefig("charge_start_by_occupation.png")
 
 fig3 = plt.figure()
-plt.hist([entry["time"].hour for entry in fcharge + mcharge], 24, normed=True, rwidth=0.9)
+plt.hist([entry["time"].hour for entry in fcharge + mcharge], 23, normed=True, rwidth=0.9)
 plt.savefig("charge_start_all.png")
 
 

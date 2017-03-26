@@ -40,7 +40,7 @@ def write_gps_data(trips_collection, file_name):
             result = influx_client.query(query)
             gps.append(list(result[config["webike.measurement"]]))
     with open(file_name, mode='w') as file:
-        file.write(gps)
+        file.write(str(gps))
 
 
 with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(

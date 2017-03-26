@@ -5,3 +5,6 @@
 *.xls
 *.png
 /iss4e.conf
+*.log
+__pycache__
+/data/

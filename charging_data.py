@@ -21,15 +21,24 @@ eastern = timezone('Canada/Eastern')
 def analyze_charge(list):
     last_time = None
     start = None
+    entires_count = 0
     for entry in list[config["webike.measurement"]]:
         time = DateTime(entry["time"])
         if start is None:
             start = time
             start_entry = entry
-        elif last_time is not None and (time - last_time).total_seconds() > 3600*8 and (last_time - start).total_seconds() > 600:
-            yield {"time": str(start), "voltage":start_entry["voltage"], "temp":start_entry["battery_temperature"]}
+            entries_count = 1
+        elif (time - last_time).total_seconds() > 60*5:
+            if entries_count >= 5 and (last_time - start).total_seconds() >= 5 * 60:
+                if(start._datetime.hour > 8 and start._datetime.hour < 10):
+                    print(start_entry)
+                yield {"time": str(start), "voltage":start_entry["voltage"], "temp":start_entry["battery_temperature"]}
+
             start = time
             start_entry = entry
+            entries_count = 1
+        else:
+            entries_count += 1
 
         last_time = time
 
@@ -38,7 +47,7 @@ def get_charging(l):
     charges = []
     for imei in l["IMEI"]:
         query = "select charging_current, discharge_current,voltage, battery_temperature from {measurement} where imei='{imei}' and \
-            (charging_current>30 or (discharge_current < 470 and discharge_current >0))".format(measurement=config["webike.measurement"], imei=int(imei))
+            (charging_current>70 or (discharge_current < 450 and discharge_current >50))".format(measurement=config["webike.measurement"], imei=int(imei))
         result = influx_client.query(query)
         charges += list(analyze_charge(result))
     return charges
