@@ -58,7 +58,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     fig1 = plt.figure()
     hist = plt.hist([[start.hour for (start, end) in ftrips], [start.hour for (start, end) in mtrips]], 24, normed=True, label=["Female", "Male"])
-    plt.legend(hist)
+    plt.legend(handles=hist)
     plt.savefig("trip_start_by_gender.png")
 
     fig2 = plt.figure()
