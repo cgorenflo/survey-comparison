@@ -59,7 +59,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     fig1 = plt.figure()
     plt.hist([[start.hour for (start, end) in ftrips], [start.hour for (start, end) in mtrips]], 24, normed=True,
              label=["female", "male"])
-    plt.xticks(range(0, 24, 2))
+    plt.xticks(range(0, 25, 2))
     plt.xlabel("hour of day")
     plt.ylabel("probability")
     plt.legend()
@@ -68,7 +68,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     fig2 = plt.figure()
     plt.hist([[start.hour for (start, end) in staff], [start.hour for (start, end) in students]], 24, normed=True,
              label=["staff/faculty", "students"])
-    plt.xticks(range(0, 24, 2))
+    plt.xticks(range(0, 25, 2))
     plt.xlabel("hour of day")
     plt.ylabel("probability")
     plt.legend()
@@ -76,7 +76,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     fig3 = plt.figure()
     plt.hist([start.hour for (start, end) in ftrips + mtrips], 24, normed=True, rwidth=0.9, label="all participants")
-    plt.xticks(range(0, 24, ))
+    plt.xticks(range(0, 25, ))
     plt.xlabel("hour of day")
     plt.ylabel("probability")
     plt.legend()
@@ -116,8 +116,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     fig7 = plt.figure()
     data = [start.month for (start, end) in ftrips + mtrips]
     plt.hist(data, bins=12, normed=True, zorder=2, rwidth=0.9, label=["all participants"])
-    plt.xticks(["January", "Febuary", "March", "Arpil", "May", "June", "July", "August", "September", "October", "November", "December"])
-    plt.setp(plt.xticks()[1], rotation=30)
+    plt.xticks(range(12),["January", "Febuary", "March", "Arpil", "May", "June", "July", "August", "September", "October", "November", "December"], rotation=30)
     plt.ylabel("probability")
     plt.legend()
     plt.savefig("trip_by_month.png")
