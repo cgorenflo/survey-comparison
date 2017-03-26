@@ -90,7 +90,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.hist(data, bins=bins, cumulative=True, zorder=1, rwidth=0.9, label="all participants (cum.)")
     plt.xlabel("average trip duration (min)")
     plt.ylabel("frequency")
-    plt.legend()
+    plt.legend(loc=1)
     plt.savefig("trip_duration_cum.png")
 
     fig5 = plt.figure()
@@ -116,7 +116,8 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     fig7 = plt.figure()
     data = [start.month for (start, end) in ftrips + mtrips]
     plt.hist(data, bins=12, normed=True, zorder=2, rwidth=0.9, label=["all participants"])
-    plt.xlabel("average trip duration (min)")
+    plt.xticks(["January", "Febuary", "March", "Arpil", "May", "June", "July", "August", "September", "October", "November", "December"])
+    plt.setp(plt.xticks()[1], rotation=30)
     plt.ylabel("probability")
     plt.legend()
     plt.savefig("trip_by_month.png")
