@@ -75,7 +75,9 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.savefig("trip_start_by_occupation.png")
 
     fig3 = plt.figure()
-    plt.hist([start.hour for (start, end) in ftrips + mtrips], 24, normed=True, rwidth=0.9, label="all participants")
+    data = [start.hour for (start, end) in ftrips + mtrips]
+    print(len([d for d in data if d ==23]))
+    plt.hist(data, 24, normed=True, rwidth=0.9, label="all participants")
     plt.xticks(range(0, 25, ))
     plt.xlabel("hour of day")
     plt.ylabel("probability")
