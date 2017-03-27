@@ -40,7 +40,7 @@ mspeed = get_average_speed(mgps)
 staffspeed = get_average_speed(staffgps)
 studentsspeed = get_average_speed(studentsgps)
 
-bins = range(0,61,5)
+bins = range(0,61,2.5)
 
 fig1 = plt.figure()
 print(stats.ranksums(fspeed, mspeed))
