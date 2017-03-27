@@ -1,6 +1,7 @@
 from geopy.distance import vincenty
 import ast
 from iss4e.webike.trips.auxiliary import DateTime
+from scipy import stats
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -42,6 +43,7 @@ studentsspeed = get_average_speed(studentsgps)
 bins = range(0,61,5)
 
 fig1 = plt.figure()
+print(stats.ranksums(fspeed, mspeed))
 plt.hist([fspeed,mspeed], bins=bins,normed=True, label=["female", "male"])
 plt.xlabel("speed (kph)")
 plt.ylabel("probability")
@@ -50,6 +52,7 @@ plt.tight_layout()
 plt.savefig("speed_by_gender.png")
 
 fig2 = plt.figure()
+print(stats.ranksums(staffspeed, studentsspeed))
 plt.hist([staffspeed, studentsspeed],bins=bins, normed=True, label=["staff/faculty","students"])
 plt.xlabel("speed (kph)")
 plt.ylabel("probability")

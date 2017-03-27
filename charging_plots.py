@@ -1,5 +1,5 @@
 import ast
-
+from scipy import stats
 import matplotlib
 import webike.data.SoC as soc
 from iss4e.webike.trips.auxiliary import DateTime
@@ -67,7 +67,9 @@ print("no. trips per charge staff: {charge}".format(charge=str(len(trip_plots.st
 print("no. trips per charge students: {charge}".format(charge=str(len(trip_plots.students) / len(students))))
 
 fig1 = plt.figure()
-plt.hist([[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]], bins=range(0,25), normed=True, label=["female", "male"])
+data = [[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]]
+print(stats.ranksums(data[0], data[1]))
+plt.hist(data, bins=range(0, 25), normed=True, label=["female", "male"])
 plt.xticks(range(0, 24, 2))
 plt.xlabel("hour of day")
 plt.ylabel("probability")
@@ -76,7 +78,9 @@ plt.tight_layout()
 plt.savefig("charge_start_by_gender.png")
 
 fig2 = plt.figure()
-plt.hist([[entry["time"].hour for entry in staff], [entry["time"].hour for entry in students]], bins=range(0,25), normed=True, label=["staff/faculty", "students"])
+data = [[entry["time"].hour for entry in staff], [entry["time"].hour for entry in students]]
+print(stats.ranksums(data[0], data[1]))
+plt.hist(data, bins=range(0, 25), normed=True, label=["staff/faculty", "students"])
 plt.xticks(range(0, 24, 2))
 plt.xlabel("hour of day")
 plt.ylabel("probability")
