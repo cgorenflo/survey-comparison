@@ -129,7 +129,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     fig7 = plt.figure()
     data = [start.month for (start, end) in ftrips + mtrips]
-    plt.hist(data, bins=range(1,13), normed=True, zorder=2, rwidth=0.9, label=["all participants"])
+    plt.hist(data, bins=range(1,14), normed=True, zorder=2, rwidth=0.9, label=["all participants"])
     plt.xticks(range(1,13),["January", "Febuary", "March", "Arpil", "May", "June", "July", "August", "September", "October", "November", "December"], rotation=30, ha="left")
     plt.ylabel("probability")
     plt.legend()
