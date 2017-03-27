@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from iss4e.db import mysql
 from iss4e.util.config import load_config
+from scipy import stats
 
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -57,7 +58,9 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
         trips=str(len(students) / (len(male_students) + len(female_students)))))
 
     fig1 = plt.figure()
-    plt.hist([[start.hour for (start, end) in ftrips], [start.hour for (start, end) in mtrips]], bins=range(25), normed=True,
+    data = [[start.hour for (start, end) in ftrips], [start.hour for (start, end) in mtrips]]
+    print(stats.ttest_ind(data[0],data[1]))
+    plt.hist(data, bins=range(25), normed=True,
              label=["female", "male"])
     plt.xticks(range(0, 24, 2))
     plt.xlabel("hour of day")
@@ -67,7 +70,9 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.savefig("trip_start_by_gender.png")
 
     fig2 = plt.figure()
-    plt.hist([[start.hour for (start, end) in staff], [start.hour for (start, end) in students]],  bins=range(25), normed=True,
+    data = [[start.hour for (start, end) in staff], [start.hour for (start, end) in students]]
+    print(stats.ttest_ind(data[0], data[1]))
+    plt.hist(data, bins=range(25), normed=True,
              label=["staff/faculty", "students"])
     plt.xticks(range(0, 24, 2))
     plt.xlabel("hour of day")
@@ -100,6 +105,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     fig5 = plt.figure()
     data = [[(end - start).total_seconds() / 60 for (start, end) in trips] for trips in [ftrips, mtrips]]
+    print(stats.ttest_ind(data[0], data[1]))
     print("avg dur trips male: {trips}".format(trips=np.mean(data[0])))
     print("avg dur trips female: {trips}".format(trips=np.mean(data[1])))
     plt.hist(data, bins=bins, normed=True, label=["female", "male"])
@@ -111,6 +117,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
 
     fig6 = plt.figure()
     data = [[(end - start).total_seconds() / 60 for (start, end) in trips] for trips in [staff, students]]
+    print(stats.ttest_ind(data[0], data[1]))
     print("avg dur trips staff: {trips}".format(trips=np.mean(data[0])))
     print("avg dur trips students: {trips}".format(trips=np.mean(data[1])))
     plt.hist(data, bins=bins, normed=True, label=["staff/faculty", "students"])
