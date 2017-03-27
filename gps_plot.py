@@ -2,6 +2,7 @@ from geopy.distance import vincenty
 import ast
 from iss4e.webike.trips.auxiliary import DateTime
 from scipy import stats
+import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -40,7 +41,7 @@ mspeed = get_average_speed(mgps)
 staffspeed = get_average_speed(staffgps)
 studentsspeed = get_average_speed(studentsgps)
 
-bins = range(0,61,2.5)
+bins = np.arange(0,61,2.5)
 
 fig1 = plt.figure()
 print(stats.ranksums(fspeed, mspeed))
