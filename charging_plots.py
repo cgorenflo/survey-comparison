@@ -66,7 +66,7 @@ print("no. trips per charge female: {charge}".format(charge=str(len(trip_plots.f
 print("no. trips per charge staff: {charge}".format(charge=str(len(trip_plots.staff) / len(staff))))
 print("no. trips per charge students: {charge}".format(charge=str(len(trip_plots.students) / len(students))))
 
-figsize = (4,2)
+figsize = (4,2.5)
 dpi=720
 fig1 = plt.figure(figsize=figsize, dpi=dpi)
 data = [[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]]

@@ -44,7 +44,7 @@ studentsspeed = get_average_speed(studentsgps)
 
 bins = np.arange(0,61,2.5)
 
-figsize=(4,2)
+figsize=(4,2.5)
 dpi=720
 fig1 = plt.figure(figsize=figsize, dpi=dpi)
 print(stats.ranksums(fspeed, mspeed))
