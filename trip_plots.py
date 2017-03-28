@@ -94,7 +94,8 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     fig4 = plt.figure()
     data = [(end - start).total_seconds() / 60 for (start, end) in ftrips + mtrips]
     print("avg dur trips: {trips}".format(trips=np.mean(data)))
-    bins = range(0, int(max(data)) + 5, 5)
+    bins = [b for b in range(0, int(max(data)) + 5, 5)]
+    bins[0] = 3
     plt.hist(data, bins=bins, zorder=2, rwidth=0.9, label="all participants")
     plt.hist(data, bins=bins, cumulative=True, zorder=1, rwidth=0.9, label="all participants (cum.)")
     plt.xlabel("average trip duration (min)")
@@ -104,10 +105,11 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.savefig("trip_duration_cum.png")
 
     fig5 = plt.figure()
+    bins[0] = 0
     data = [[(end - start).total_seconds() / 60 for (start, end) in trips] for trips in [ftrips, mtrips]]
     print(stats.ranksums(data[0], data[1]))
-    print("avg dur trips male: {trips}".format(trips=np.mean(data[0])))
-    print("avg dur trips female: {trips}".format(trips=np.mean(data[1])))
+    print("avg dur trips male: {trips}".format(trips=np.mean(data[1])))
+    print("avg dur trips female: {trips}".format(trips=np.mean(data[0])))
     plt.hist(data, bins=bins, normed=True, label=["female", "male"])
     plt.xlabel("average trip duration (min)")
     plt.ylabel("probability")
