@@ -20,9 +20,10 @@ studentsgps = read("data/studentsgps")
 def get_average_speed(gps_by_trips):
     speeds = []
     for trip in gps_by_trips:
-        n=1
         t_tot = 0
         d_tot = 0
+        if(len(trip) <5):
+            continue
         for i in range(len(trip) - 1):
             t = (DateTime(trip[i + 1]["time"]) - DateTime(trip[i]["time"])).total_seconds()	    
             if(t !=0):                
