@@ -57,13 +57,13 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     print("avg no. trips students: {trips}".format(
         trips=str(len(students) / (len(male_students) + len(female_students)))))
 
-    fig1 = plt.figure()
+    figsize = (4,2)
+    dpi = 720
+    fig1 = plt.figure(figsize=figsize, dpi=dpi)
     data = [[start.hour for (start, end) in ftrips], [start.hour for (start, end) in mtrips]]
     print(stats.ranksums(data[0],data[1]))
     plt.hist(data, bins=range(25), normed=True,
              label=["female", "male"])
-    ax = plt.gca()
-    ax.set_aspect(0.5)
     plt.xticks(range(0, 24, 2))
     plt.xlabel("hour of day")
     plt.ylabel("probability density")
@@ -71,13 +71,11 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.tight_layout()
     plt.savefig("trip_start_by_gender.png")
 
-    fig2 = plt.figure()
+    fig2 = plt.figure(figsize=figsize, dpi=dpi)
     data = [[start.hour for (start, end) in staff], [start.hour for (start, end) in students]]
     print(stats.ranksums(data[0], data[1]))
     plt.hist(data, bins=range(25), normed=True,
              label=["staff/faculty", "students"])
-    ax = plt.gca()
-    ax.set_aspect(0.5)
     plt.xticks(range(0, 24, 2))
     plt.xlabel("hour of day")
     plt.ylabel("probability density")
@@ -85,11 +83,9 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.tight_layout()
     plt.savefig("trip_start_by_occupation.png")
 
-    fig3 = plt.figure()
+    fig3 = plt.figure(figsize=figsize, dpi=dpi)
     data = [start.hour for (start, end) in ftrips + mtrips]
     plt.hist(data,  bins=range(25), normed=True, rwidth=0.9, label="all participants")
-    ax = plt.gca()
-    ax.set_aspect(0.5)
     plt.xticks(range(0, 24,2 ))
     plt.xlabel("hour of day")
     plt.ylabel("probability density")
@@ -97,15 +93,13 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.tight_layout()
     plt.savefig("trip_start_all.png")
 
-    fig4 = plt.figure()
+    fig4 = plt.figure(figsize=figsize, dpi=dpi)
     data = [(end - start).total_seconds() / 60 for (start, end) in ftrips + mtrips]
     print("avg dur trips: {trips}".format(trips=np.mean(data)))
     bins = [b for b in range(0, int(max(data)) + 5, 5)]
     bins[0] = 3
     plt.hist(data, bins=bins, zorder=2, rwidth=0.9, label="all participants")
     plt.hist(data, bins=bins, cumulative=True, zorder=1, rwidth=0.9, label="all participants (cum.)")
-    ax = plt.gca()
-    ax.set_aspect(0.5)
     print("mean: {mean}".format(mean=np.mean(data)))
     print("std: {std}".format(std=np.std(data)))
     plt.xlabel("average trip duration (min)")
@@ -114,40 +108,34 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     plt.tight_layout()
     plt.savefig("trip_duration_cum.png")
 
-    fig5 = plt.figure()
+    fig5 = plt.figure(figsize=figsize, dpi=dpi)
     bins[0] = 0
     data = [[(end - start).total_seconds() / 60 for (start, end) in trips] for trips in [ftrips, mtrips]]
     print(stats.ranksums(data[0], data[1]))
     print("avg dur trips male: {trips}".format(trips=np.mean(data[1])))
     print("avg dur trips female: {trips}".format(trips=np.mean(data[0])))
     plt.hist(data, bins=bins, normed=True, label=["female", "male"])
-    ax = plt.gca()
-    ax.set_aspect(0.5)
     plt.xlabel("average trip duration (min)")
     plt.ylabel("probability")
     plt.legend()
     plt.tight_layout()
     plt.savefig("trip_duration_by_gender.png")
 
-    fig6 = plt.figure()
+    fig6 = plt.figure(figsize=figsize, dpi=dpi)
     data = [[(end - start).total_seconds() / 60 for (start, end) in trips] for trips in [staff, students]]
     print(stats.ranksums(data[0], data[1]))
     print("avg dur trips staff: {trips}".format(trips=np.mean(data[0])))
     print("avg dur trips students: {trips}".format(trips=np.mean(data[1])))
     plt.hist(data, bins=bins, normed=True, label=["staff/faculty", "students"])
-    ax = plt.gca()
-    ax.set_aspect(0.5)
     plt.xlabel("average trip duration (min)")
     plt.ylabel("probability density")
     plt.legend()
     plt.tight_layout()
     plt.savefig("trip_duration_by_occupation.png")
 
-    fig7 = plt.figure()
+    fig7 = plt.figure(figsize=figsize, dpi=dpi)
     data = [start.month for (start, end) in ftrips + mtrips]
     plt.hist(data, bins=range(1,14), normed=True, zorder=2, rwidth=0.9, label=["all participants"])
-    ax = plt.gca()
-    ax.set_aspect(0.5)
     plt.xticks(range(1,13),["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], rotation=30, ha="left")
     plt.ylabel("probability density")
     plt.legend()

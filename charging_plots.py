@@ -66,12 +66,12 @@ print("no. trips per charge female: {charge}".format(charge=str(len(trip_plots.f
 print("no. trips per charge staff: {charge}".format(charge=str(len(trip_plots.staff) / len(staff))))
 print("no. trips per charge students: {charge}".format(charge=str(len(trip_plots.students) / len(students))))
 
-fig1 = plt.figure()
+figsize = (4,2)
+dpi=720
+fig1 = plt.figure(figsize=figsize, dpi=dpi)
 data = [[entry["time"].hour for entry in fcharge], [entry["time"].hour for entry in mcharge]]
 print(stats.ranksums(data[0], data[1]))
 plt.hist(data, bins=range(0, 25), normed=True, label=["female", "male"])
-ax = plt.gca()
-ax.set_aspect(0.5)
 plt.xticks(range(0, 24, 2))
 plt.xlabel("hour of day")
 plt.ylabel("probability density")
@@ -79,12 +79,10 @@ plt.legend()
 plt.tight_layout()
 plt.savefig("charge_start_by_gender.png")
 
-fig2 = plt.figure()
+fig2 = plt.figure(figsize=figsize, dpi=dpi)
 data = [[entry["time"].hour for entry in staff], [entry["time"].hour for entry in students]]
 print(stats.ranksums(data[0], data[1]))
 plt.hist(data, bins=range(0, 25), normed=True, label=["staff/faculty", "students"])
-ax = plt.gca()
-ax.set_aspect(0.5)
 plt.xticks(range(0, 24, 2))
 plt.xlabel("hour of day")
 plt.ylabel("probability density")
@@ -92,10 +90,8 @@ plt.legend()
 plt.tight_layout()
 plt.savefig("charge_start_by_occupation.png")
 
-fig3 = plt.figure()
+fig3 = plt.figure(figsize=figsize, dpi=dpi)
 plt.hist([entry["time"].hour for entry in fcharge + mcharge], bins=range(0,25), normed=True, rwidth=0.9, label=["all participants"])
-ax = plt.gca()
-ax.set_aspect(0.5)
 plt.xticks(range(0, 24, 2))
 plt.xlabel("hour of day")
 plt.ylabel("probability density")
@@ -110,12 +106,11 @@ def calc_soc_data(l):
 
 
 bins = 20
-fig4 = plt.figure()
+
+fig4 = plt.figure(figsize=figsize, dpi=dpi)
 plt.hist(calc_soc_data(fcharge + mcharge), bins, rwidth=0.9, zorder=2, label = "all aprticipants")
 plt.hist(calc_soc_data(fcharge + mcharge), bins, rwidth=0.9, cumulative=True,label = "all participants (cum.)",
          zorder=1)
-ax = plt.gca()
-ax.set_aspect(0.5)
 plt.xlabel("state of charge (percentage)")
 plt.ylabel("frequency")
 plt.legend()
@@ -123,20 +118,16 @@ plt.tight_layout()
 plt.savefig("charge_start_by_soc.png")
 
 
-fig5 = plt.figure()
+fig5 = plt.figure(figsize=figsize, dpi=dpi)
 plt.hist([calc_soc_data(fcharge), calc_soc_data(mcharge)], bins, normed=True, label=["female", "male"])
-ax = plt.gca()
-ax.set_aspect(0.5)
 plt.xlabel("state of charge (percentage)")
 plt.ylabel("probability density")
 plt.legend()
 plt.tight_layout()
 plt.savefig("charge_start_by_soc_by_gender.png")
 
-fig6 = plt.figure()
+fig6 = plt.figure(figsize=figsize, dpi=dpi)
 plt.hist([calc_soc_data(staff), calc_soc_data(students)], bins, normed=True,label=["staff/faculty", "students"])
-ax = plt.gca()
-ax.set_aspect(0.5)
 plt.xlabel("state of charge (percentage)")
 plt.ylabel("probability density")
 plt.legend()
