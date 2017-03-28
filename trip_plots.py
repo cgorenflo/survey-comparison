@@ -97,6 +97,8 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     bins = range(0, int(max(data)) + 5, 5)
     plt.hist(data, bins=bins, zorder=2, rwidth=0.9, label="all participants")
     plt.hist(data, bins=bins, cumulative=True, zorder=1, rwidth=0.9, label="all participants (cum.)")
+    print("mean: {mean}".format(mean=np.mean(data)))
+    print("std: {std}".format(std=np.std(data)))
     plt.xlabel("average trip duration (min)")
     plt.ylabel("frequency")
     plt.legend(loc=1)

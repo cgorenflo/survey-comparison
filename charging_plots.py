@@ -114,6 +114,7 @@ plt.legend()
 plt.tight_layout()
 plt.savefig("charge_start_by_soc.png")
 
+
 fig5 = plt.figure()
 plt.hist([calc_soc_data(fcharge), calc_soc_data(mcharge)], bins, normed=True, label=["female", "male"])
 plt.xlabel("state of charge (percentage)")
