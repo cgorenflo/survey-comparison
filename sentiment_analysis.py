@@ -269,5 +269,5 @@ dpi = 100
 for m in modes:
     columns = [p + m for p in props]
     plot_mean(columns)
-    plt.savefig("survey_{modes}.png".format(modes=m))
+    plt.savefig("survey{modes}.png".format(modes=m))
 plt.show()
