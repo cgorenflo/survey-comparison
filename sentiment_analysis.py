@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy
 import pandas as pd
 
-import radar_chart
+# import radar_chart
 
 survey1 = pd.read_excel("survey1_participants.xlsx")
 survey2 = pd.read_excel("survey2_participants.xlsx")
@@ -61,71 +61,71 @@ def plot(figure, subplotargs, column):
     sub.plot(pos, [numpy.mean(result[column + '_y'])] * len(pos), 'b--')
 
 
-figrad = plt.figure()
-radar = radar_chart.ComplexRadar(figrad, ["independence_importance",
-                         "stress_importance",
-                         "cost_importance",
-                         "status_importance",
-                         "fun_importance",
-                         "environment_importance"],[(0,7)]*6)
+# figrad = plt.figure()
+# radar = radar_chart.ComplexRadar(figrad, ["independence_importance",
+#                                           "stress_importance",
+#                                           "cost_importance",
+#                                           "status_importance",
+#                                           "fun_importance",
+#                                           "environment_importance"], [(0, 7)] * 6)
+#
+# participant_index = 1
+# radar.plot(tuple(result[["independence_importance",
+#                          "stress_importance",
+#                          "cost_importance",
+#                          "status_importance",
+#                          "fun_importance",
+#                          "environment_importance"]].iloc[participant_index]))
+# radar.fill(tuple(result[["independence_importance",
+#                          "stress_importance",
+#                          "cost_importance",
+#                          "status_importance",
+#                          "fun_importance",
+#                          "environment_importance"]].iloc[participant_index]), alpha=0.2)
+#
+# radar.plot(tuple(result[["independence_importance_x",
+#                          "stress_importance_x",
+#                          "cost_importance_x",
+#                          "status_importance_x",
+#                          "fun_importance_x",
+#                          "environment_importance_x"]].iloc[participant_index]))
+# radar.fill(tuple(result[["independence_importance_x",
+#                          "stress_importance_x",
+#                          "cost_importance_x",
+#                          "status_importance_x",
+#                          "fun_importance_x",
+#                          "environment_importance_x"]].iloc[participant_index]), alpha=0.2)
+#
+# radar.plot(tuple(result[["independence_importance_y",
+#                          "stress_importance_y",
+#                          "cost_importance_y",
+#                          "status_importance_y",
+#                          "fun_importance_y",
+#                          "environment_importance_y"]].iloc[participant_index]))
+# radar.fill(tuple(result[["independence_importance_y",
+#                          "stress_importance_y",
+#                          "cost_importance_y",
+#                          "status_importance_y",
+#                          "fun_importance_y",
+#                          "environment_importance_y"]].iloc[participant_index]), alpha=0.2)
+# plt.savefig("radar.png")
 
-participant_index = 1
-radar.plot(tuple(result[["independence_importance",
-                         "stress_importance",
-                         "cost_importance",
-                         "status_importance",
-                         "fun_importance",
-                         "environment_importance"]].iloc[participant_index]))
-radar.fill(tuple(result[["independence_importance",
-                         "stress_importance",
-                         "cost_importance",
-                         "status_importance",
-                         "fun_importance",
-                         "environment_importance"]].iloc[participant_index]), alpha=0.2)
 
-radar.plot(tuple(result[["independence_importance_x",
-                         "stress_importance_x",
-                         "cost_importance_x",
-                         "status_importance_x",
-                         "fun_importance_x",
-                         "environment_importance_x"]].iloc[participant_index]))
-radar.fill(tuple(result[["independence_importance_x",
-                         "stress_importance_x",
-                         "cost_importance_x",
-                         "status_importance_x",
-                         "fun_importance_x",
-                         "environment_importance_x"]].iloc[participant_index]), alpha=0.2)
-
-radar.plot(tuple(result[["independence_importance_y",
-                         "stress_importance_y",
-                         "cost_importance_y",
-                         "status_importance_y",
-                         "fun_importance_y",
-                         "environment_importance_y"]].iloc[participant_index]))
-radar.fill(tuple(result[["independence_importance_y",
-                         "stress_importance_y",
-                         "cost_importance_y",
-                         "status_importance_y",
-                         "fun_importance_y",
-                         "environment_importance_y"]].iloc[participant_index]), alpha=0.2)
-plt.savefig("radar.png")
-
-
-fig1a = plt.figure()
-plot(fig1a, 321, "independence_importance")
-plot(fig1a, 322, "stress_importance")
-plot(fig1a, 323, "cost_importance")
-plot(fig1a, 324, "status_importance")
-plot(fig1a, 325, "fun_importance")
-plot(fig1a, 326, "environment_importance")
-plt.savefig("importance1.png")
-
-fig1b = plt.figure()
-plot(fig1b, 321, "reliability_importance")
-plot(fig1b, 322, "comfort_importance")
-plot(fig1b, 323, "safety_importance")
-plot(fig1b, 324, "health_importance")
-plt.savefig("importance2.png")
+# fig1a = plt.figure()
+# plot(fig1a, 321, "independence_importance")
+# plot(fig1a, 322, "stress_importance")
+# plot(fig1a, 323, "cost_importance")
+# plot(fig1a, 324, "status_importance")
+# plot(fig1a, 325, "fun_importance")
+# plot(fig1a, 326, "environment_importance")
+# plt.savefig("importance1.png")
+#
+# fig1b = plt.figure()
+# plot(fig1b, 321, "reliability_importance")
+# plot(fig1b, 322, "comfort_importance")
+# plot(fig1b, 323, "safety_importance")
+# plot(fig1b, 324, "health_importance")
+# plt.savefig("importance2.png")
 #
 # fig2 = plt.figure()
 # plot(fig2, 321, "independence_cars")
@@ -205,6 +205,69 @@ plt.savefig("importance2.png")
 # plot(fig11, 323, "health_ebikes")
 # plot(fig11, 324, "health_transit")
 # plot(fig11, 325, "health_walk")
-plt.savefig("radar.png")
+# plt.savefig("radar.png")
 
+props = ["independence", "stress", "cost", "status", "fun", "environment", "reliability", "comfort", "safety",
+         "health"]
+
+propslabels = ["spontaneous", "stress-free", "expensive", "fits social status", "fun", "eco-friendly", "reliable", "comfortable", "safety",
+         "healthy"]
+modes = ["_cars", "_bikes", "_ebikes", "_transit", "_walk"]
+
+
+def plot_mean(columns):
+    plt.figure(figsize=figsize, dpi=dpi)
+    plt.xticks([p + 1.5 * width for p in pos], propslabels, rotation=30, ha="center")
+    plt.yticks(range(1, 6), ["Strongly Disagree",
+                             "Disagree",
+                             "Neutral",
+                             "Agree",
+                             "Strongly Agree"
+                             ])
+    plt.xlim([min(pos) - width, max(pos) + width * 4])
+    plt.ylim([0, 5.5])
+    plt.tight_layout()
+    plt.bar(pos,
+            [numpy.mean(result[c]) for c in columns],
+            width,
+            alpha=1,
+            color='black')
+    plt.errorbar([p +0.5*width for p in pos],
+                 [numpy.mean(result[c]) for c in columns],
+                 [numpy.std(result[c]) for c in columns],
+                 alpha=1,
+                 linestyle='None',
+                 color='red')
+    plt.bar([p + width for p in pos],
+            [numpy.mean(result[c + '_x']) for c in columns],
+            width,
+            alpha=1,
+            color='orange')
+    plt.errorbar([p + 1.5 * width for p in pos],
+                 [numpy.mean(result[c + '_x']) for c in columns],
+                 [numpy.std(result[c + '_x']) for c in columns],
+                 alpha=1,
+                 linestyle='None',
+                 color='red')
+    plt.bar([p + width * 2 for p in pos],
+            [numpy.mean(result[c + '_y']) for c in columns],
+            width,
+            alpha=1,
+            color='blue')
+    plt.errorbar([p + width * 2.5 for p in pos],
+                 [numpy.mean(result[c + '_y']) for c in columns],
+                 [numpy.std(result[c + '_y']) for c in columns],
+                 alpha=1,
+                 linestyle='None',
+                 color='red')
+
+
+pos = list(range(len(props)))
+width = 0.2
+figsize = (20,10)
+dpi = 100
+for m in modes:
+    columns = [p + m for p in props]
+    plot_mean(columns)
+    plt.savefig("survey_{modes}.png".format(modes=m))
 plt.show()
