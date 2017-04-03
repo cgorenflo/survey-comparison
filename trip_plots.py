@@ -57,7 +57,7 @@ with mysql.connect(**config["webike.mysql"]) as mysql_client:
     print("avg no. trips students: {trips}".format(
         trips=str(len(students) / (len(male_students) + len(female_students)))))
 
-    figsize = (4,2)
+    figsize = (4,2.5)
     dpi = 720
     fig1 = plt.figure(figsize=figsize, dpi=dpi)
     data = [[start.hour for (start, end) in ftrips], [start.hour for (start, end) in mtrips]]
