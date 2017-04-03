@@ -14,7 +14,7 @@ result = survey1.merge(survey2, how='left', on=["email"])
 result = result.merge(survey3, how='left', on=["email"])
 
 figsize = (10, 5)
-dpi = 600
+dpi = 300
 
 
 def plot(column,title):
@@ -148,6 +148,7 @@ def plot_mean(columns):
                  color='red')
 
     plt.legend([s1, s2, s3], ["survey 1", "survey 2", "survey 3"])
+    plt.title(m[1:])
 
 
 pos = list(range(len(props)))
