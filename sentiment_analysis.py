@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy
 import pandas as pd
@@ -230,8 +232,8 @@ def plot_mean(columns):
     plt.bar(pos,
             [numpy.mean(result[c]) for c in columns],
             width,
-            alpha=1,
-            color='black')
+            alpha=1
+            )
     plt.errorbar([p +0.5*width for p in pos],
                  [numpy.mean(result[c]) for c in columns],
                  [numpy.std(result[c]) for c in columns],
@@ -241,8 +243,7 @@ def plot_mean(columns):
     plt.bar([p + width for p in pos],
             [numpy.mean(result[c + '_x']) for c in columns],
             width,
-            alpha=1,
-            color='orange')
+            alpha=1            )
     plt.errorbar([p + 1.5 * width for p in pos],
                  [numpy.mean(result[c + '_x']) for c in columns],
                  [numpy.std(result[c + '_x']) for c in columns],
@@ -253,7 +254,7 @@ def plot_mean(columns):
             [numpy.mean(result[c + '_y']) for c in columns],
             width,
             alpha=1,
-            color='blue')
+            color ='black')
     plt.errorbar([p + width * 2.5 for p in pos],
                  [numpy.mean(result[c + '_y']) for c in columns],
                  [numpy.std(result[c + '_y']) for c in columns],
@@ -264,10 +265,9 @@ def plot_mean(columns):
 
 pos = list(range(len(props)))
 width = 0.2
-figsize = (20,10)
+figsize = (10,5)
 dpi = 100
 for m in modes:
     columns = [p + m for p in props]
     plot_mean(columns)
     plt.savefig("survey_{modes}.png".format(modes=m))
-plt.show()
