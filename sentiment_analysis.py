@@ -40,41 +40,41 @@ def plot(column,title):
     # in position pos,
     s1= plt.bar(pos,
             # using df['pre_score'] data,
-            result[column],
+            survey1[column],
             # of width
             width,
             # with alpha 0.5
             alpha=1,
             # with color
             color='royalblue')
-    plt.plot([min(pos) - width, max(pos) + width * 4], [numpy.mean(result[column])] * 2, '--', color="royalblue")
+    plt.plot([min(pos) - width, max(pos) + width * 4], [numpy.mean(survey1[column])] * 2, '--', color="royalblue")
 
     # Create a bar with mid_score data,
     # in position pos + some width buffer,
     s2 = plt.bar([p + width for p in pos],
             # using df['mid_score'] data,
-            result[column + '_x'],
+            survey2[column],
             # of width
             width,
             # with alpha 0.5
             alpha=1,
             # with color
             color='darkorange')
-    plt.plot([min(pos) - width, max(pos) + width * 4], [numpy.mean(result[column + '_x'])] * 2, '--',
+    plt.plot([min(pos) - width, max(pos) + width * 4], [numpy.mean(survey2[column])] * 2, '--',
              color="darkorange")
 
     # Create a bar with post_score data,
     # in position pos + some width buffer,
     s3 = plt.bar([p + width * 2 for p in pos],
             # using df['post_score'] data,
-            result[column + '_y'],
+            survey3[column],
             # of width
             width,
             # with alpha 0.5
             alpha=1,
             # with color
             color='black')
-    plt.plot([min(pos) - width, max(pos) + width * 4], [numpy.mean(result[column + '_y'])] * 2, '--', color="black")
+    plt.plot([min(pos) - width, max(pos) + width * 4], [numpy.mean(survey3[column])] * 2, '--', color="black")
     plt.legend([s1, s2, s3], ["survey 1", "survey 2", "survey 3"])
     plt.savefig("survey_{column}.png".format(column=column))
 

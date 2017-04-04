@@ -16,8 +16,8 @@ def map_email_addresses():
 
     replace_string_values_with_integers(survey1)
 
-    filtered_survey1 = survey1[survey1["email"].isin(survey2["email"])].sort_values("email", ascending=True)
-    filtered_survey2 = survey2[survey2["email"].isin(survey1["email"])].sort_values("email", ascending=True)
+    filtered_survey1 = survey1[survey1["email"].isin(survey3["email"])].sort_values("email", ascending=True)
+    filtered_survey2 = survey2[survey2["email"].isin(survey3["email"])].sort_values("email", ascending=True)
     filtered_survey3 = survey3[survey3["email"].isin(survey1["email"])].sort_values("email", ascending=True)
 
     with pd.ExcelWriter("survey1_participants.xlsx") as writer:
