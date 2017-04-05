@@ -54,7 +54,7 @@ def get_trips(imei, start, end):
         cursor.execute("SELECT start,end from trips where imei={imei} and month(start)>{start} and MONTH (start)<{end}".format(imei=imei, start=start, end=end))
     else:
         cursor.execute(
-            "SELECT start,end from trips where imei={imei} and month(start)>{start} or MONTH (start)<{end}".format(
+            "SELECT start,end from trips where imei={imei} and (month(start)>{start} or MONTH (start)<{end})".format(
                 imei=imei, start=start, end=end))
     result = cursor.fetchall()
     return [(start.replace(tzinfo=timezone('UTC')).astimezone(eastern),
@@ -69,7 +69,7 @@ def plot(name, s ,e ):
         duration = 0
         for start, end in trips:
             duration += (end - start).total_seconds() / 60
-        durations += [duration]
+        durations += [duration/len(trips)]
         kms += [km]
 
     plt.figure()
