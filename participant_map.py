@@ -19,9 +19,7 @@ female_students = participants.iloc[18:23][["Email", "IMEI"]]
 male_students = participants.iloc[25:32][["Email", "IMEI"]]
 iss4e = participants.iloc[34:39][["Email", "IMEI"]]
 
-parts = female_staff + male_staff+female_students+ male_students + iss4e
-
-parts = pd.concat([female_students, female_staff, male_students, male_staff])
+parts = pd.concat([female_students, female_staff, male_students, male_staff, iss4e])
 
 survey1 = pd.read_excel("survey 1.xlsx")
 survey1.columns = map(str, range(182))
