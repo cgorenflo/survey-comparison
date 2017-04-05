@@ -50,7 +50,7 @@ for slice in result1[["161","162","IMEI"]].iterrows():
 
 
 def get_trips(imei, start, end):
-    if(start<end):
+    if(int(start)<int(end)):
         cursor.execute("SELECT start,end from trips where imei={imei} and month(start)>{start} and MONTH (start)<{end}".format(imei=imei, start=start, end=end))
     else:
         cursor.execute(
