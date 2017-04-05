@@ -72,7 +72,13 @@ def plot(name, s ,e ):
         durations += [duration/(31+30+31+31+30+31)]
         kms += [km]
 
-    plt.figure()
+    figsize = (5, 3.125)
+    dpi = 720
+    fig1 = plt.figure(figsize=figsize, dpi=dpi)
+    plt.xticks(range(0, 30, 5))
+    plt.xlabel("estimated km range per day")
+    plt.ylabel("actual average time on bike per day")
+    plt.tight_layout()
     plt.scatter(kms, durations)
     plt.savefig(name)
 
