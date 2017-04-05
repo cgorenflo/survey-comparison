@@ -69,8 +69,8 @@ def plot(name, s ,e ):
         duration = 0
         for start, end in trips:
             duration += (end - start).total_seconds() / 60
-        duration += duration
-        kms += kms
+        durations += [duration]
+        kms += [km]
 
     plt.figure()
     plt.scatter(kms, durations)
