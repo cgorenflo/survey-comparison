@@ -72,7 +72,7 @@ def plot(name, s ,e ):
             duration += (end - start).total_seconds() / 60
         durations += [duration/(31+30+31+31+30+31)]
         kms += [km]
-        t = [len(trips)/(31+30+31+31+30+31)]
+        t += [len(trips)/(31+30+31+31+30+31)]
 
     figsize = (5, 3.125)
     dpi = 720
