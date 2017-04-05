@@ -50,7 +50,12 @@ for slice in result1[["161","162","IMEI"]].iterrows():
 
 
 def get_trips(imei, start, end):
-    cursor.execute("SELECT start,end from trips where imei={imei} and month(start)>{start} and MONTH (end)<{end}".format(imei=imei, start=start, end=end))
+    if(start<end):
+        cursor.execute("SELECT start,end from trips where imei={imei} and month(start)>{start} and MONTH (start)<{end}".format(imei=imei, start=start, end=end))
+    else:
+        cursor.execute(
+            "SELECT start,end from trips where imei={imei} and month(start)>{start} or MONTH (start)<{end}".format(
+                imei=imei, start=start, end=end))
     result = cursor.fetchall()
     return [(start.replace(tzinfo=timezone('UTC')).astimezone(eastern),
                end.replace(tzinfo=timezone('UTC')).astimezone(eastern)) for (start, end) in result]
