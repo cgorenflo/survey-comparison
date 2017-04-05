@@ -17,8 +17,9 @@ female_staff = participants.iloc[1:8][["Email", "IMEI"]]
 male_staff = participants.iloc[10:16][["Email", "IMEI"]]
 female_students = participants.iloc[18:23][["Email", "IMEI"]]
 male_students = participants.iloc[25:32][["Email", "IMEI"]]
+iss4e = participants.iloc[34:39][["Email", "IMEI"]]
 
-parts = female_staff + male_staff+female_students+ male_students
+parts = female_staff + male_staff+female_students+ male_students + iss4e
 
 parts = pd.concat([female_students, female_staff, male_students, male_staff])
 
