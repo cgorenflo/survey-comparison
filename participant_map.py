@@ -64,6 +64,7 @@ def get_trips(imei, start, end):
 def plot(name, s ,e ):
     durations = []
     kms = []
+    t = []
     for km, imei in summer_trips:
         trips = get_trips(imei, s, e)
         duration = 0
@@ -71,16 +72,25 @@ def plot(name, s ,e ):
             duration += (end - start).total_seconds() / 60
         durations += [duration/(31+30+31+31+30+31)]
         kms += [km]
+        t = [len(trips)/(31+30+31+31+30+31)]
 
     figsize = (5, 3.125)
     dpi = 720
-    fig1 = plt.figure(figsize=figsize, dpi=dpi)
+    plt.figure(figsize=figsize, dpi=dpi)
     plt.xticks(range(0, 30, 5))
-    plt.xlabel("estimated km range per day")
-    plt.ylabel("actual average time on bike per day")
+    plt.xlabel("estimated trip km range per day")
+    plt.ylabel("average trip duration per day")
     plt.tight_layout()
     plt.scatter(kms, durations)
     plt.savefig(name)
+
+    plt.figure(figsize=figsize, dpi=dpi)
+    plt.xticks(range(0, 30, 5))
+    plt.xlabel("estimated trip km range per day")
+    plt.ylabel("average number of trips per day")
+    plt.tight_layout()
+    plt.scatter(kms, t)
+    plt.savefig("number_of_"+ name)
 
 
 with mysql.connect(**config["webike.mysql"]) as mysql_client:
