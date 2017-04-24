@@ -34,7 +34,7 @@ def analyze_charge(list):
 
 
 def get_charging(date1, date2):
-    query = "select charging_current, discharge_current,voltage, battery_temperature from {measurement} where time>'{start}'and time < '{end}'\
+    query = "select charging_current, discharge_current,voltage, battery_temperature from {measurement} where time>'{start}'and time < '{end}' and \
             (charging_current>70 or (discharge_current < 450 and discharge_current >50))".format(measurement=config["webike.measurement"], start=date1, end=date2)
     result = influx_client.query(query)
     return analyze_charge(result)
