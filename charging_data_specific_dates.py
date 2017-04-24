@@ -37,11 +37,11 @@ def get_charging(date1, date2):
     query = "select charging_current, discharge_current,voltage, battery_temperature from {measurement} where time>'{start}'and time < '{end}' and \
             (charging_current>70 or (discharge_current < 450 and discharge_current >50))".format(measurement=config["webike.measurement"], start=date1, end=date2)
     result = influx_client.query(query)
-    return analyze_charge(result)
+    return list(analyze_charge(result))
 
 
 with mysql.connect(**config["webike.mysql"]) as mysql_client, influxdb.connect(
         **config["webike.influx"]) as influx_client:
-    print(len(get_charging("2015-10-23","2015-10-25")))
-    print(len(get_charging("2015-06-15", "2015-06-17")))
-    print(len(get_charging("2016-04-19", "2016-04-21")))
+    print(len(get_charging("2015-10-24","2015-10-25")))
+    print(len(get_charging("2015-06-16", "2015-06-17")))
+    print(len(get_charging("2016-04-20", "2016-04-21")))
